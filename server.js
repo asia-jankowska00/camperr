@@ -1,12 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
-require("dotenv").config();
 
+// Configuration
+require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
-
 app.use(express.json());
 
+// Routes
+const campgroundsRoute = require("./routes/api/campgrounds.js");
+app.use("/campgrounds", campgroundsRoute);
+
+// MongoDB connection
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {
   useNewUrlParser: true,

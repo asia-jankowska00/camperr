@@ -3,9 +3,29 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const campgroundSchema = new Schema({
-  name: String,
-  image: String,
-  description: String,
+  name: { type: String, required: true },
+  image: { type: String, required: true },
+  description: { type: String, required: true },
+  cost: Number,
+  location: String,
+  lat: Number,
+  lng: Number,
+  createdAt: { type: Date, default: Date.now },
+  // ,
+  // author: {
+  //    id: {
+  //       type: mongoose.Schema.Types.ObjectId,
+  //       ref: "User"
+  //    },
+  //    username: String
+  // }
+  // ,
+  // comments: [
+  //    {
+  //       type: mongoose.Schema.Types.ObjectId,
+  //       ref: "Comment"
+  //    }
+  // ]
 });
 
 const Campground = mongoose.model("Campground", campgroundSchema);
