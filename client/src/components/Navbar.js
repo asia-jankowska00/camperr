@@ -1,35 +1,68 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-// import NavLink from "./NavLink";
+// background: ${props.navColor ? props.navColor : "transparent"};
 
-const StyledNavbar = styled.nav((props) => ({
-  // background: props.theme.color.dark,
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  width: "100%",
-  color: props.theme.color.light,
-  padding: `${props.theme.space[0.5]} ${props.theme.space[1.5]}`,
-  position: "fixed",
-}));
+const StyledNavbar = styled.nav(
+  (props) => `
+ background: ${props.theme.color.black};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  color: ${props.theme.color.light};
+  padding: ${props.theme.space[0.5]} ${props.theme.space[1.5]};
+  position: fixed;
+  z-index: 9999;
 
-const StyledNav = styled.div((props) => ({}));
+  a {
+    text-decoration: none;
+  }
+  `
+);
 
-const StyledNavbarLogo = styled.a((props) => ({
-  fontWeight: 700,
-  fontSize: "200%",
-}));
+const StyledNav = styled.div(
+  (props) => `
+   display: flex;
+   align-items: center;
+`
+);
 
-const StyledNavLink = styled.a((props) => ({
-  textDecoration: "none",
-  padding: `0 ${props.theme.space["1"]}`,
-}));
+const StyledNavbarLogo = styled.div(
+  (props) => `
+  text-decoration: none;
+  font-weight: ${props.theme.typography.bold};
+  font-size: ${props.theme.space[1.75]};
+  text-shadow: ${props.theme.style.textShadow};
+  margin-right: ${props.theme.space[1.5]};
+`
+);
+
+const StyledNavLink = styled.a(
+  (props) => `
+  text-decoration: none;
+  margin: 0 ${props.theme.space["1"]};
+  text-shadow: ${props.theme.style.textShadow};
+ 
+  &:hover {
+    border-bottom: 1px solid ${props.theme.color.light};
+  },
+`
+);
 
 const Navbar = () => {
   return (
     <StyledNavbar>
-      <StyledNavbarLogo>camperr</StyledNavbarLogo>
+      <StyledNav>
+        <Link to="/">
+          <StyledNavbarLogo> camperr</StyledNavbarLogo>
+        </Link>
+        <Link to="/campgrounds">
+          <StyledNavLink>Browse</StyledNavLink>
+        </Link>
+      </StyledNav>
+
       <StyledNav>
         <StyledNavLink href="#">Log in</StyledNavLink>
         <StyledNavLink href="#">Sign up</StyledNavLink>

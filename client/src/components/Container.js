@@ -1,16 +1,44 @@
-import React from 'react'
+import React from "react";
 import styled from "styled-components";
 
-const StyledContainer = styled.div((props) => ({
-    maxWidth: '1400px';
-}))
+const StyledContainer = styled.div(
+  (props) => `
+  max-width: 95vw;
+  width: 100%;
 
-const Container = () => {
-    return (
-        <StyledContainer>
-            {props.children}
-        </StyledContainer>
-    )
-}
+  margin-right: auto;
+  margin-left: auto;
+  ${
+    props.isGrid
+      ? "display: grid; grid-template-columns: 12;"
+      : "display: flex;"
+  }
+  flex-wrap: ${props.flexWrap};
+  flex-direction ${props.flexDirection};
+  justify-content: ${props.justifyContent};
+  align-items: ${props.alignItems};
+  min-height: ${props.heightStyle};
 
-export default Container
+
+  @media ${props.theme.device.laptop} {
+    max-width: 85vw;
+  }
+`
+);
+
+const Container = (props) => {
+  return (
+    <StyledContainer
+      isGrid={props.isGrid}
+      flexWrap={props.flexWrap}
+      justifyContent={props.justifyContent}
+      alignItems={props.alignItems}
+      flexDirection={props.flexDirection}
+      heightStyle={props.heightStyle}
+    >
+      {props.children}
+    </StyledContainer>
+  );
+};
+
+export default Container;

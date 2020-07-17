@@ -1,4 +1,5 @@
 const color = {
+  transparent: "transparent",
   dark: "#151B11",
   light: "#F8F7F4",
   black: "#040B00",
@@ -12,6 +13,8 @@ const color = {
 
 const style = {
   shadow: "0px 4px 4px rgba(0, 0, 0, 0.25);",
+  textShadow: "0px 4px 15px rgba(0, 0, 0, 1)",
+  round: "9999px",
 };
 
 const typography = {
@@ -22,6 +25,11 @@ const typography = {
   "Helvetica Neue", Arial, sans-serif,
   "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`,
   font_primary: `Montserrat`,
+  font_secondary: "Lato",
+  light: 300,
+  regular: 400,
+  medium: 500,
+  bold: 700,
 };
 
 const size = {
@@ -31,7 +39,8 @@ const size = {
   tablet: "768px",
   laptop: "1024px",
   laptopL: "1440px",
-  desktop: "2560px",
+  desktop: "1920px",
+  desktopL: "2560px",
 };
 
 const device = {
@@ -42,16 +51,20 @@ const device = {
   laptop: `(min-width: ${size.laptop})`,
   laptopL: `(min-width: ${size.laptopL})`,
   desktop: `(min-width: ${size.desktop})`,
-  desktopL: `(min-width: ${size.desktop})`,
+  desktopL: `(min-width: ${size.desktopL})`,
 };
 
 const space = {
+  0: 0,
   0.25: "0.25rem",
   0.5: "0.5rem",
   0.75: "0.75rem",
   1: "1rem",
+  1.25: "1.25rem",
   1.5: "1.5rem",
+  1.75: "1.75rem",
   2: "2rem",
+  2.5: "2.5rem",
   3: "3rem",
   4: "4rem",
   6: "6rem",
@@ -61,21 +74,25 @@ const space = {
   24: "24rem",
 };
 
-// const fontSize = {
-//   0.25: "0.25rem",
-//   0.5: "0.5rem",
-//   0.75: "0.75rem",
-//   p: "1rem",
-//   1.5: "1.5rem",
-//   2: "2rem",
-//   3: "3rem",
-//   4: "4rem",
-//   6: "6rem",
-//   8: "8rem",
-//   12: "12rem",
-//   16: "16rem",
-//   24: "24rem",
-// }
+const speed = {
+  very_fast: "0.2s",
+  fast: "0.3s",
+  medium: "0.5s",
+  slow: "0.7s",
+  very_slow: "1s",
+};
+
+const transition = {
+  transform_veryFast: `transform ${speed.very_fast}`,
+  transform_fast: `transform ${speed.fast}`,
+  transform_slow: `transform ${speed.slow}`,
+};
+
+const width = {
+  "w-30%": `30%`,
+  "w-1/3": `33.33%`,
+  "w-1/4": `25%`,
+};
 
 const theme = {
   color,
@@ -84,6 +101,9 @@ const theme = {
   size,
   device,
   space,
+  speed,
+  transition,
+  width,
 };
 
 export default theme;
