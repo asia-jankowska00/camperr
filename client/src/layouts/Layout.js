@@ -1,5 +1,5 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useLocation, useHistory } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import globalStyles from "../themes/globalStyles";
 
@@ -12,12 +12,15 @@ const GlobalStyle = createGlobalStyle((props) => globalStyles);
 const Layout = (props) => {
   const location = useLocation();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
   return (
     <React.Fragment>
       <GlobalStyle />
       <Navbar />
       {location.pathname === "/" ? "" : <Buffer />}
-
       {props.children}
       <Footer></Footer>
     </React.Fragment>

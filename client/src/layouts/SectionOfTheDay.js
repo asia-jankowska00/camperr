@@ -26,7 +26,7 @@ const SectionOfTheDay = (props) => {
       heightStyle="100vh"
     >
       <Headline>Campsite of the day</Headline>
-      <Card campground={campground}></Card>
+      <Card widthStyle="w-3/5" campground={campground}></Card>
     </Container>
   );
 };

@@ -7,6 +7,7 @@ const StyledFooter = styled.footer(
   (props) => `
     width: 100%;
     height: 100px;
+    margin-top: auto;
     background: ${props.theme.color.black};
     color: : ${props.theme.color.light};
   `

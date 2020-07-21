@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const StyledInputWrapper = styled.div(
   (props) => `
- 
+  width: 100%;
   `
 );
 

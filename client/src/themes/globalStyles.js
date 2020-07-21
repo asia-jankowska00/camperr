@@ -2,6 +2,10 @@ const globalStyles = (props) => {
   return `* {
         box-sizing: inherit;
       }
+
+      html {
+        height: 100%;
+      }
       
       body {
         background-color: ${props.theme.color.light};
@@ -12,6 +16,14 @@ const globalStyles = (props) => {
         font-weight:  ${props.theme.typography.medium};
         margin: 0;
         box-sizing: border-box;
+        min-height: 100vh;
+      
+      }
+
+      #root {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
       }
     
       a {

@@ -33,9 +33,7 @@ const StyledButton = styled.button(
     }
 
     &:focus {
-      box-shadow: 0px 0px 0px 1px ${props.theme.color.success_light};
-      outline: none;
-
+      outline: 1px solid ${props.theme.color.grey_med};
     }
 `
 );

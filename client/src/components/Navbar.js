@@ -39,7 +39,7 @@ const StyledNavbarLogo = styled.div(
 `
 );
 
-const StyledNavLink = styled.a(
+const StyledNavLink = styled.div(
   (props) => `
   text-decoration: none;
   margin: 0 ${props.theme.space["1"]};
@@ -64,8 +64,12 @@ const Navbar = () => {
       </StyledNav>
 
       <StyledNav>
-        <StyledNavLink href="#">Log in</StyledNavLink>
-        <StyledNavLink href="#">Sign up</StyledNavLink>
+        <Link to="/login">
+          <StyledNavLink>Log in</StyledNavLink>
+        </Link>
+        <Link to="/signup">
+          <StyledNavLink>Sign up</StyledNavLink>
+        </Link>
       </StyledNav>
     </StyledNavbar>
   );
