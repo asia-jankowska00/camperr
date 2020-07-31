@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 
 // import { useContext } from "react";
@@ -62,28 +63,36 @@ const Card = (props) => {
     <StyledCardWrapper widthStyle={props.widthStyle}>
       <StyledCardImage image={props.campground.image}></StyledCardImage>
       <StyledCardContent>
-        <Headline size="h5" styles={`text-align: left; margin-top: 0;`}>
+        <Headline tag="h5" styles={`text-align: left; margin-top: 0;`}>
           {props.campground.name}
         </Headline>
 
         <Paragraph>{props.campground.description}</Paragraph>
-        <StyledButtonsWrapper>
-          <Button
-            linkStyle={true}
-            colorStyle={themeContext.color.dark}
-            backgroundColorStyle={themeContext.color.transparent}
-          >
-            Comments
-          </Button>
-          <Button
-            colorStyle={themeContext.color.light}
-            backgroundColorStyle={themeContext.color.dark}
-            sizeVertialStyle={themeContext.space[0.75]}
-            sizeHorizontalStyle={themeContext.space[2]}
-          >
-            View
-          </Button>
-        </StyledButtonsWrapper>
+        <Paragraph>
+          Added by:
+          {props.campground.author ? props.campground.author.username : null}
+        </Paragraph>
+        {props.showButtons ? (
+          <StyledButtonsWrapper>
+            <Button
+              linkStyle={true}
+              colorStyle={themeContext.color.dark}
+              backgroundColorStyle={themeContext.color.transparent}
+            >
+              Reviews
+            </Button>
+            <Link to={`/campgrounds/${props.campground._id}`}>
+              <Button
+                colorStyle={themeContext.color.light}
+                backgroundColorStyle={themeContext.color.dark}
+                sizeVertialStyle={themeContext.space[0.5]}
+                sizeHorizontalStyle={themeContext.space[1.75]}
+              >
+                View
+              </Button>
+            </Link>
+          </StyledButtonsWrapper>
+        ) : null}
       </StyledCardContent>
     </StyledCardWrapper>
   );

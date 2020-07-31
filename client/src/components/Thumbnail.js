@@ -41,12 +41,6 @@ const StyledThumbnailOverlay = styled.div(
   `
 );
 
-const StyledThumbnailTitle = styled.h3(
-  (props) => `
-
-    `
-);
-
 const Thumbnail = (props) => {
   const themeContext = useContext(ThemeContext);
 

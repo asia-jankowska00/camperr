@@ -3,9 +3,9 @@ import styled from "styled-components";
 
 const StyledFlexWrapper = styled.div(
   (props) => `
-  width:100%;
+  width: ${props.widthStyle ? props.widthStyle : "100%"};
   display: flex;
-  flex-wrap: ${props.nestedStyle ? "wrap" : "nowrap"};
+  flex-wrap: wrap;
   flex-direction ${props.flexDirection};
   justify-content: ${props.justifyContent};
   align-items: ${props.alignItems};
@@ -15,6 +15,7 @@ const StyledFlexWrapper = styled.div(
 const FlexWrapper = (props) => {
   return (
     <StyledFlexWrapper
+      widthStyle={props.widthStyle}
       justifyContent={props.justifyContent}
       alignItems={props.alignItems}
       flexDirection={props.flexDirection}

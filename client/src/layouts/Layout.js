@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import globalStyles from "../themes/globalStyles";
 

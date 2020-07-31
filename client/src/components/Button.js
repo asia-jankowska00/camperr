@@ -16,10 +16,11 @@ const StyledButton = styled.button(
     letter-spacing: 2px;
     cursor: pointer;
     transition: ${props.theme.transition.transform_veryFast};
+    margin: ${props.marginStyle};
   
     ${
       props.linkStyle
-        ? `border-radius: 0; border-bottom: 1px solid ${props.colorStyle};`
+        ? `border-radius: 0; border-bottom: 1px solid ${props.colorStyle}; background: ${props.theme.color.transparent};`
         : ""
     }
 
@@ -41,11 +42,13 @@ const StyledButton = styled.button(
 const Button = (props) => {
   return (
     <StyledButton
+      onClick={props.onClick}
       colorStyle={props.colorStyle}
       backgroundColorStyle={props.backgroundColorStyle}
       sizeHorizontalStyle={props.sizeHorizontalStyle}
       sizeVertialStyle={props.sizeVertialStyle}
       linkStyle={props.linkStyle}
+      marginStyle={props.marginStyle}
     >
       {props.children}
     </StyledButton>

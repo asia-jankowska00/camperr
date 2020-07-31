@@ -30,7 +30,12 @@ const TextInput = (props) => {
   return (
     <InputWrapper>
       <Label>{props.label}</Label>
-      <StyledTextInput type={props.type} value={props.value} />
+      <StyledTextInput
+        type={props.type}
+        required={props.required}
+        value={props.value}
+        onChange={props.onChange}
+      />
     </InputWrapper>
   );
 };

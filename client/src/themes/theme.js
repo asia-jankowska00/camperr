@@ -9,6 +9,8 @@ const color = {
   warning_light: "#F5E3E3",
   success: "#466F25",
   success_light: "#E3EBD7",
+  dark_transparent: "rgba(21, 27, 17, 0.5)",
+  light_transparent: "rgba(248, 247, 244, 0.5)",
 };
 
 const style = {
@@ -25,7 +27,7 @@ const typography = {
   "Helvetica Neue", Arial, sans-serif,
   "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`,
   font_primary: `Montserrat`,
-  font_secondary: "Lato",
+  font_secondary: "Mulish",
   light: 300,
   regular: 400,
   medium: 500,
@@ -90,10 +92,33 @@ const transition = {
 
 const width = {
   "w-30%": `30%`,
-  "w-1/3": `33.33%`,
-  "w-1/4": `25%`,
-  "w-1/5": `20%`,
-  "w-3/5": `60%`,
+  "100%": "100%",
+  "w-1/2": " 50%",
+  "w-1/3": "33.333333%",
+  "w-2/4": "50%",
+  "w-3/4": "75%",
+  "w-1/5": "20%",
+  "w-2/3": "66.666667%",
+  "w-2/5": "40%",
+  "w-3/5": "60%",
+  "w-4/5": "80%",
+  "w-1/6": "16.666667%",
+  "w-2/6": "33.333333%",
+  "w-3/6": "50%",
+  "w-4/6": "66.666667%",
+  "w-5/6": "83.333333%",
+  "w-1/12": " 8.333333%",
+  "w-2/12": " 16.666667%",
+  "w-1/4": "25%",
+  "w-3/12": " 25%",
+  "w-4/12": " 33.333333%",
+  "w-5/12": " 41.666667%",
+  "w-6/12": " 50%",
+  "w-7/12": " 58.333333%",
+  "w-8/12": " 66.666667%",
+  "w-9/12": " 75%",
+  "w-10/1": ": 83.333333%",
+  "w-11/1": ": 91.666667%",
 };
 
 const theme = {

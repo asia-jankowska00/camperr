@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 import { useContext } from "react";
 import { ThemeContext } from "styled-components";
@@ -53,17 +54,22 @@ const SectionImageCover = (props) => {
         flexDirection="column"
         heightStyle="100vh"
       >
-        <Headline styles={`text-shadow: ${themeContext.style.textShadow};`}>
+        <Headline
+          tag="h3"
+          styles={`text-shadow: ${themeContext.style.textShadow};`}
+        >
           Find reliable camping sites, anywhere.
         </Headline>
-        <Button
-          colorStyle={themeContext.color.dark}
-          backgroundColorStyle={themeContext.color.light}
-          sizeVertialStyle={themeContext.space[0.75]}
-          sizeHorizontalStyle={themeContext.space[2]}
-        >
-          Browse
-        </Button>
+        <Link to="/campgrounds">
+          <Button
+            colorStyle={themeContext.color.dark}
+            backgroundColorStyle={themeContext.color.light}
+            sizeVertialStyle={themeContext.space[0.75]}
+            sizeHorizontalStyle={themeContext.space[2]}
+          >
+            Browse
+          </Button>
+        </Link>
       </Container>
     </StyledCover>
   );

@@ -5,13 +5,22 @@ import * as serviceWorker from "./serviceWorker";
 
 import "./style.css";
 
+import { BrowserRouter as Router, useHistory } from "react-router-dom";
+
+import { Provider, useDispatch } from "react-redux";
+import store from "./store";
+
 import { ThemeProvider } from "styled-components";
 import theme from "./themes/theme";
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <App />
+      <Provider store={store}>
+        <Router>
+          <App />
+        </Router>
+      </Provider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")

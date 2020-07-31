@@ -1,34 +1,15 @@
 import {
   GET_CAMPGROUNDS,
+  GET_CAMPGROUND,
   ADD_CAMPGROUND,
+  UPDATE_CAMPGROUND,
   DELETE_CAMPGROUND,
   CAMPGROUNDS_LOADING,
 } from "../actions/types";
 
 const initialState = {
-  // campgrounds: [
-  //   {
-  //     _id: 1,
-  //     name: "Campground one",
-  //     image:
-  //       "https://previews.123rf.com/images/wiphawee/wiphawee1510/wiphawee151000008/47324445-the-camsite-in-pine-forest.jpg",
-  //     description: "Its a campy camp",
-  //   },
-  //   {
-  //     _id: 2,
-  //     name: "Campground two",
-  //     image:
-  //       "https://thumbs.dreamstime.com/b/outdoor-tent-forest-camsite-26616028.jpg",
-  //     description: "Its a campier camp",
-  //   },
-  //   {
-  //     _id: 3,
-  //     name: "Campground three",
-  //     image: "https://i.ytimg.com/vi/KAlwkTSwkNA/hqdefault.jpg",
-  //     description: "Its the campiest camp!",
-  //   },
-  // ],
   campgrounds: [],
+  campground: {},
   loading: false,
 };
 
@@ -41,9 +22,32 @@ export default function campgroundReducer(state = initialState, action) {
         loading: false,
       };
 
+    case GET_CAMPGROUND:
+      return {
+        ...state,
+        campground: action.payload,
+        loading: false,
+      };
+
+    case ADD_CAMPGROUND:
+      return {
+        ...state,
+        campgrounds: [action.payload, ...state.campgrounds],
+      };
+
+    case UPDATE_CAMPGROUND:
+      return {
+        ...state,
+        campground: action.payload,
+        loading: false,
+      };
+
     case DELETE_CAMPGROUND:
       return {
         ...state,
+        campgrounds: state.campgrounds.filter(
+          (campground) => campground._id !== action.payload
+        ),
       };
 
     case CAMPGROUNDS_LOADING:

@@ -30,7 +30,11 @@ const Textarea = (props) => {
   return (
     <InputWrapper>
       <Label>{props.label}</Label>
-      <StyledTextarea />
+      <StyledTextarea
+        value={props.value}
+        onChange={props.onChange}
+        required={props.required}
+      />
     </InputWrapper>
   );
 };

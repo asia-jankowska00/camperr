@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-const StyledHeadline = styled.h3(
+const StyledHeadline = styled.h1(
   (props) => `
 font-weight:  ${props.theme.typography.medium};
-text-align: center;
+text-align: ${props.textAlign};
 margin: ${props.marginStyle};
 ${props.styles}
 `
@@ -12,7 +12,12 @@ ${props.styles}
 
 const Headline = (props) => {
   return (
-    <StyledHeadline marginStyle={props.marginStyle} styles={props.styles}>
+    <StyledHeadline
+      as={props.tag}
+      marginStyle={props.marginStyle}
+      styles={props.styles}
+      textAlign={props.textAlign}
+    >
       {props.children}
     </StyledHeadline>
   );

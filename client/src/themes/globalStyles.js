@@ -1,5 +1,6 @@
 const globalStyles = (props) => {
-  return `* {
+  return `
+      * {
         box-sizing: inherit;
       }
 

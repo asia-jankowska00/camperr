@@ -25,7 +25,7 @@ const SectionOfTheDay = (props) => {
       flexDirection="column"
       heightStyle="100vh"
     >
-      <Headline>Campsite of the day</Headline>
+      <Headline tag="h3">Campsite of the day</Headline>
       <Card widthStyle="w-3/5" campground={campground}></Card>
     </Container>
   );

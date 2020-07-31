@@ -11,19 +11,17 @@ const campgroundSchema = new Schema({
   lat: Number,
   lng: Number,
   createdAt: { type: Date, default: Date.now },
-  // ,
-  // author: {
-  //    id: {
-  //       type: mongoose.Schema.Types.ObjectId,
-  //       ref: "User"
-  //    },
-  //    username: String
-  // }
-  // ,
-  // comments: [
+  author: {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    username: String,
+  },
+  // reviews: [
   //    {
   //       type: mongoose.Schema.Types.ObjectId,
-  //       ref: "Comment"
+  //       ref: "Review"
   //    }
   // ]
 });

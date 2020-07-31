@@ -17,7 +17,7 @@ const SectionThumbnails = (props) => {
       flexDirection="column"
       heightStyle="100vh"
     >
-      <Headline styles={`color: ${themeContext.color.dark};`}>
+      <Headline tag="h3" styles={`color: ${themeContext.color.dark};`}>
         The perfect place to find a new trip
       </Headline>
       <Paragraph>
