@@ -12,12 +12,11 @@ import TextInput from "../components/TextInput";
 import Paper from "../components/Paper";
 import Button from "../components/Button";
 import Form from "../components/Form";
-import Alert from "../components/Alert";
+import Error from "../components/Error";
 
 const Login = (props) => {
   const themeContext = useContext(ThemeContext);
   const dispatch = useDispatch();
-  const error = useSelector((state) => state.error);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const [user, setUser] = useState({});
@@ -30,7 +29,7 @@ const Login = (props) => {
         alignItems="center"
         flexDirection="column"
       >
-        {error.msg ? <Alert type="warning">{error.msg}</Alert> : null}
+        <Error />
         <Form
           onSubmit={(e) => {
             e.preventDefault();

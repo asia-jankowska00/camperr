@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { getCampgrounds } from "../actions/campgroundActions";
@@ -45,19 +45,17 @@ const Campgrounds = (props) => {
             <Loader></Loader>
           </FlexWrapper>
         ) : (
-          ""
+          campgroundsData.map((campground) => {
+            return (
+              <Card
+                widthStyle="w-30%"
+                showButtons={true}
+                campground={campground}
+                key={campground._id}
+              ></Card>
+            );
+          })
         )}
-
-        {campgroundsData.map((campground) => {
-          return (
-            <Card
-              widthStyle="w-30%"
-              showButtons={true}
-              campground={campground}
-              key={campground._id}
-            ></Card>
-          );
-        })}
       </Container>
     </Layout>
   );

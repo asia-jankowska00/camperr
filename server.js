@@ -18,6 +18,12 @@ app.use(function (req, res, next) {
 
 // Routes
 app.use("/campgrounds", require("./routes/api/campgrounds.js"));
+// app.use("/campgrounds/:id/reviews", function (req, res, next) {
+//   console.log(req.params.id);
+//   res.locals.id = req.params.id;
+//   next();
+// });
+app.use("/campgrounds/:id/reviews", require("./routes/api/reviews.js"));
 app.use("/users", require("./routes/api/users.js"));
 app.use("/auth", require("./routes/api/auth.js"));
 
@@ -28,6 +34,9 @@ mongoose.connect(uri, {
   useCreateIndex: true,
   useUnifiedTopology: true,
 });
+
+// https://mongoosejs.com/docs/deprecations.html#findandmodify
+mongoose.set("useFindAndModify", false);
 
 const connection = mongoose.connection;
 connection.once("open", () => {

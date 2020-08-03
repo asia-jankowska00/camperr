@@ -19,7 +19,8 @@ function App(props) {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const errorMsg = useSelector((state) => state.error.msg);
+  const errorHasShown = useSelector((state) => state.error.hasShown);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const redirectTo = useSelector((state) => state.router.redirectTo);
 
   // const isInitialMount = useRef(true);
@@ -38,8 +39,10 @@ function App(props) {
   }, []);
 
   useEffect(() => {
-    if (errorMsg) dispatch(clearErrors());
-    dispatch(redirect(null));
+    if (errorHasShown) {
+      dispatch(clearErrors());
+      dispatch(redirect(null));
+    }
   }, [location]);
 
   return (
@@ -53,7 +56,7 @@ function App(props) {
         <Route path="/" exact component={Homepage} />
         <Route path="/campgrounds" exact component={Campgrounds} />
         <PrivateRoute path="/campgrounds/new" component={CreateCampground} />
-        <Route path="/campgrounds/:id/edit" component={EditCampground} />
+        <PrivateRoute path="/campgrounds/:id/edit" component={EditCampground} />
         <Route path="/campgrounds/:id" component={Campground} />
 
         <Route path="/login" component={Login} />

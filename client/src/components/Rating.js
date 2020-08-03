@@ -1,37 +1,31 @@
-import React, { useContext } from "react";
-import styled, { ThemeContext } from "styled-components";
-import { ReactComponent as Star } from "../images/star.svg";
+import React, { useState } from "react";
+
+import RatingStar from "./RatingStar";
 
 const Rating = (props) => {
-  const themeContext = useContext(ThemeContext);
   const maxRating = 5;
+
+  const setRating = props.setRating;
   const rating = props.rating;
-  const leftRatings = maxRating - rating;
+
+  const size = props.size || 20;
 
   return (
-    <React.Fragment>
-      {[...Array(rating)].map((star, index) => {
+    <div>
+      {props.label}
+      {[...Array(maxRating)].map((star, index) => {
         return (
-          <Star
-            key={index}
-            height={props.size}
-            width={props.size}
-            fill={themeContext.color.success}
-          ></Star>
+          <RatingStar
+            isSettable={props.isSettable}
+            size={size}
+            setRating={setRating}
+            rating={rating}
+            starId={index + 1}
+            key={index + 1}
+          ></RatingStar>
         );
       })}
-
-      {[...Array(leftRatings)].map((star, index) => {
-        return (
-          <Star
-            key={index}
-            height={props.size}
-            width={props.size}
-            fill={themeContext.color.success_light}
-          ></Star>
-        );
-      })}
-    </React.Fragment>
+    </div>
   );
 };
 

@@ -5,7 +5,9 @@ import Paper from "./Paper";
 
 const StyledAlert = styled.p(
   (props) => `
-    text-align: center;
+  font-family: 
+  ${props.theme.typography.font_secondary}, ${props.theme.typography.font_fallback};
+  text-align: center;
   width: 100%;
 `
 );

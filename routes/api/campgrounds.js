@@ -13,14 +13,16 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:id", (req, res) => {
-  // const id = new mongoose.Types.ObjectId(req.params.id);
-  // console.log(mongoose.Types.ObjectId.isValid(req.params.id));
-  Campground.findById(req.params.id)
-    .then((campground) => res.json(campground))
-    .catch((err) => {
-      throw err;
-    });
+router.get("/:id", async (req, res) => {
+  try {
+    const campground = await Campground.findById(req.params.id)
+      .populate("reviews")
+      .exec();
+    if (!campground) throw Error("This campground doesn't exist");
+    res.json(campground);
+  } catch (err) {
+    res.status(404).json({ msg: err.message });
+  }
 });
 
 router.put("/:id", auth, (req, res) => {
@@ -38,7 +40,6 @@ router.put("/:id", auth, (req, res) => {
 });
 
 router.post("/", auth, (req, res) => {
-  // User.findById(req.user.id).then((user) => {
   const newCampground = new Campground({
     name: req.body.name,
     image: req.body.image,
@@ -56,7 +57,6 @@ router.post("/", auth, (req, res) => {
       throw err;
     });
 });
-// });
 
 router.delete("/:id", auth, (req, res) => {
   Campground.findByIdAndDelete(req.params.id)

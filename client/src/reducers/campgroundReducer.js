@@ -4,6 +4,9 @@ import {
   ADD_CAMPGROUND,
   UPDATE_CAMPGROUND,
   DELETE_CAMPGROUND,
+  ADD_REVIEW,
+  UPDATE_REVIEW,
+  DELETE_REVIEW,
   CAMPGROUNDS_LOADING,
 } from "../actions/types";
 
@@ -48,6 +51,43 @@ export default function campgroundReducer(state = initialState, action) {
         campgrounds: state.campgrounds.filter(
           (campground) => campground._id !== action.payload
         ),
+      };
+
+    case ADD_REVIEW:
+      return {
+        ...state,
+        campground: {
+          reviews: [action.payload, ...state.campground.reviews],
+        },
+      };
+
+    case UPDATE_REVIEW:
+      // const oldReview = state.campground.reviews.filter(
+      //   (review) => review._id == action.payload.id
+      // )
+      // const newReview = action.payload
+
+      const newReviews = state.campground.reviews.map((review) => {
+        if ((review._id = action.payload.id)) {
+          review = action.payload;
+        }
+        return review;
+      });
+      return {
+        ...state,
+        campground: {
+          reviews: newReviews,
+        },
+      };
+
+    case DELETE_REVIEW:
+      return {
+        ...state,
+        campground: {
+          reviews: state.campground.reviews.filter(
+            (review) => review._id !== action.payload
+          ),
+        },
       };
 
     case CAMPGROUNDS_LOADING:

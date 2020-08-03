@@ -9,6 +9,7 @@ const StyledFlexWrapper = styled.div(
   flex-direction ${props.flexDirection};
   justify-content: ${props.justifyContent};
   align-items: ${props.alignItems};
+
 `
 );
 

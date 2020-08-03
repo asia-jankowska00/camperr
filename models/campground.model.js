@@ -18,12 +18,12 @@ const campgroundSchema = new Schema({
     },
     username: String,
   },
-  // reviews: [
-  //    {
-  //       type: mongoose.Schema.Types.ObjectId,
-  //       ref: "Review"
-  //    }
-  // ]
+  reviews: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
 });
 
 const Campground = mongoose.model("Campground", campgroundSchema);

@@ -33,30 +33,44 @@ const globalStyles = (props) => {
     
       h1 {
         font-size:  ${props.theme.space[3]};
+        margin-top:  ${props.theme.space[3]};
+        margin-bottom:  ${props.theme.space[3]};
       }
     
       h2 {
-        font-size:   ${props.theme.space[2.5]}
+        font-size:   ${props.theme.space[2.5]};
+        margin-top:  ${props.theme.space[2.5]};
+        margin-bottom:  ${props.theme.space[2.5]};
       }
     
       h3 {
-        font-size:   ${props.theme.space[1.75]}
+        font-size:   ${props.theme.space[1.75]};
+        margin-top:  ${props.theme.space[1.75]};
+        margin-bottom:  ${props.theme.space[1.75]};
       }
     
       h4 {
         font-size:  ${props.theme.space[1.5]};
+        margin-top:  ${props.theme.space[1.5]};
+        margin-bottom:  ${props.theme.space[1.5]};
       }
     
       h5 {
         font-size:   ${props.theme.space[1.25]};
+        margin-top:  ${props.theme.space[1.25]};
+        margin-bottom:  ${props.theme.space[1.25]};
       }
     
       h6 {
         font-size:  ${props.theme.space[1]};
+        margin-top:  ${props.theme.space[1]};
+        margin-bottom:  ${props.theme.space[1]};
       };
 
       p {
         font-size:  ${props.theme.space[1]};
+        margin-top:  ${props.theme.space[1]};
+        margin-bottom:  ${props.theme.space[1]};
       }`;
 };
 

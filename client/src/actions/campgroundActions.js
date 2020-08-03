@@ -40,6 +40,7 @@ export const getCampground = (id) => {
         });
       })
       .catch((err) => {
+        console.log(err.response);
         dispatch(returnErrors(err.response.data.msg, err.response.status));
       });
   };

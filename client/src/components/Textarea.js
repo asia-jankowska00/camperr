@@ -19,6 +19,7 @@ const StyledTextarea = styled.textarea.attrs((props) => ({
         border-bottom: 1px solid ${props.theme.color.grey_med};
         padding: ${props.theme.space[0.25]};
         margin-bottom: ${props.theme.space[1]};
+        resize: none;
 
         &:focus {
           outline-color: ${props.theme.color.grey_med};

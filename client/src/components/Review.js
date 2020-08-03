@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ThemeContext } from "styled-components";
 import styled from "styled-components";
+
+import { useSelector } from "react-redux";
 
 import FlexWrapper from "./FlexWrapper";
 import Avatar from "./Avatar";
 import Rating from "./Rating";
+import Button from "../components/Button";
 
 const StyledReview = styled.p(
   (props) => `
@@ -16,12 +20,17 @@ const StyledReviewWrapper = styled.div(
       background: ${props.theme.color.light};
       padding: ${props.theme.space[2]};
       flex-grow: 1;
+      margin-bottom: ${props.theme.space[2]};
 
     `
 );
 
 const Review = (props) => {
-  const rating = 4;
+  const themeContext = useContext(ThemeContext);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+  const review = props.review;
+  const rating = review.rating;
 
   return (
     <FlexWrapper alignItems="center">
@@ -31,8 +40,30 @@ const Review = (props) => {
         }
       ></Avatar>
       <StyledReviewWrapper>
-        <Rating size="20" rating={rating}></Rating>
-        <StyledReview>Review text</StyledReview>
+        <FlexWrapper justifyContent="space-between">
+          <Rating size="20" rating={rating}></Rating>
+          {isAuthenticated ? (
+            <FlexWrapper widthStyle="auto">
+              <Button
+                // onClick={}
+                marginStyle={"0 2rem 2rem 0"}
+                linkStyle={true}
+                colorStyle={themeContext.color.warning}
+              >
+                Delete
+              </Button>
+
+              <Button
+                marginStyle={"0 0 2rem 0"}
+                linkStyle={true}
+                colorStyle={themeContext.color.dark}
+              >
+                Edit
+              </Button>
+            </FlexWrapper>
+          ) : null}
+        </FlexWrapper>
+        <StyledReview>{review.text}</StyledReview>
       </StyledReviewWrapper>
     </FlexWrapper>
   );
