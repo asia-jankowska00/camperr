@@ -14,7 +14,8 @@ const StyledTextarea = styled.textarea.attrs((props) => ({
         color: ${props.theme.color.dark};
         font-family: 
         ${props.theme.typography.font_secondary}, ${props.theme.typography.font_fallback};
-        font-weight: ${props.theme.typography.bold};
+        font-weight: ${props.theme.typography.regular};
+        font-size: 0.9rem;
         border: none;
         border-bottom: 1px solid ${props.theme.color.grey_med};
         padding: ${props.theme.space[0.25]};
@@ -30,7 +31,7 @@ const StyledTextarea = styled.textarea.attrs((props) => ({
 const Textarea = (props) => {
   return (
     <InputWrapper>
-      <Label>{props.label}</Label>
+      {props.label ? <Label>{props.label}</Label> : null}
       <StyledTextarea
         value={props.value}
         onChange={props.onChange}

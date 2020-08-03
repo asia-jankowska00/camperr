@@ -9,6 +9,7 @@ const StyledFlexWrapper = styled.div(
   flex-direction ${props.flexDirection};
   justify-content: ${props.justifyContent};
   align-items: ${props.alignItems};
+  margin: ${props.marginStyle}
 
 `
 );
@@ -16,6 +17,7 @@ const StyledFlexWrapper = styled.div(
 const FlexWrapper = (props) => {
   return (
     <StyledFlexWrapper
+      marginStyle={props.marginStyle}
       widthStyle={props.widthStyle}
       justifyContent={props.justifyContent}
       alignItems={props.alignItems}

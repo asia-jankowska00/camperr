@@ -57,16 +57,12 @@ export default function campgroundReducer(state = initialState, action) {
       return {
         ...state,
         campground: {
-          reviews: [action.payload, ...state.campground.reviews],
+          ...state.campground,
+          reviews: [...state.campground.reviews, action.payload],
         },
       };
 
     case UPDATE_REVIEW:
-      // const oldReview = state.campground.reviews.filter(
-      //   (review) => review._id == action.payload.id
-      // )
-      // const newReview = action.payload
-
       const newReviews = state.campground.reviews.map((review) => {
         if ((review._id = action.payload.id)) {
           review = action.payload;
@@ -76,6 +72,7 @@ export default function campgroundReducer(state = initialState, action) {
       return {
         ...state,
         campground: {
+          ...state.campground,
           reviews: newReviews,
         },
       };
@@ -84,6 +81,7 @@ export default function campgroundReducer(state = initialState, action) {
       return {
         ...state,
         campground: {
+          ...state.campground,
           reviews: state.campground.reviews.filter(
             (review) => review._id !== action.payload
           ),

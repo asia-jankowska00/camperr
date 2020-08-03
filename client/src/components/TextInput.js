@@ -29,7 +29,8 @@ const StyledTextInput = styled.input.attrs((props) => ({
 const TextInput = (props) => {
   return (
     <InputWrapper>
-      <Label>{props.label}</Label>
+      {props.label ? <Label>{props.label}</Label> : null}
+
       <StyledTextInput
         type={props.type}
         required={props.required}

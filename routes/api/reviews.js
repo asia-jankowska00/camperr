@@ -21,10 +21,45 @@ router.post("/", auth, async (req, res) => {
         },
       });
 
-      newReview.save();
       campground.reviews.push(newReview);
       campground.save();
-      res.json(campground);
+      newReview.save().then((newReview) => res.json(newReview));
+    }
+  } catch (err) {
+    res.json({ msg: err.message });
+  }
+});
+
+router.delete("/:reviewId", auth, async (req, res) => {
+  try {
+    const review = await Review.findByIdAndDelete(req.params.reviewId).exec();
+    if (!review) throw Error("This review doesn't exist");
+
+    const campground = await Campground.findById(
+      req.params.campgroundId
+    ).exec();
+    if (!campground) throw Error("This campground doesn't exist");
+
+    campground.reviews.pull(req.params.reviewId);
+    campground.save();
+
+    res.json(campground);
+  } catch (err) {
+    res.json({ msg: err.message });
+  }
+});
+
+router.put("/:reviewId", auth, async (req, res) => {
+  try {
+    const review = await Review.findByIdAndUpdate(
+      req.params.reviewId,
+      req.body,
+      { new: true }
+    ).exec();
+
+    if (!review) throw Error("This review doesn't exist");
+    else {
+      res.json(review);
     }
   } catch (err) {
     res.json({ msg: err.message });

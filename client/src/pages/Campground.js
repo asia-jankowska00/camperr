@@ -144,7 +144,10 @@ const Campground = (props) => {
                         setReview({ ...review, text: e.target.value });
                       }}
                     ></Textarea>
-                    <FlexWrapper justifyContent="space-between">
+                    <FlexWrapper
+                      marginStyle="0 0 2rem 0"
+                      justifyContent="space-between"
+                    >
                       <Rating
                         rating={rating}
                         setRating={setRating}
@@ -165,7 +168,13 @@ const Campground = (props) => {
 
                 {campgroundData.reviews
                   ? campgroundData.reviews.map((review, index) => {
-                      return <Review key={review.id} review={review}></Review>;
+                      return (
+                        <Review
+                          key={review.id}
+                          review={review}
+                          campgroundId={campgroundData._id}
+                        ></Review>
+                      );
                     })
                   : null}
               </Paper>

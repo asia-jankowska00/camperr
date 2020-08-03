@@ -8,6 +8,7 @@ const StyledLabel = styled.label(
   letter-spacing: 2px;
   font-weight: ${props.theme.typography.bold};
   font-size: ${props.theme.space[0.75]};
+  margin-right:  ${props.theme.space[0.75]};
     `
 );
 

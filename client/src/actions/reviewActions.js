@@ -21,3 +21,36 @@ export const addReview = (review, id) => {
         if (err.response.status === 401) dispatch(redirect("/login"));
       });
 };
+
+export const deleteReview = (campgroundId, reviewId) => {
+  return (dispatch, getState) =>
+    axios
+      .delete(
+        `/campgrounds/${campgroundId}/reviews/${reviewId}`,
+        tokenConfig(getState)
+      )
+      .then((res) => {
+        dispatch({
+          type: DELETE_REVIEW,
+          payload: reviewId,
+        });
+        dispatch(redirect(`/campgrounds/${campgroundId}`));
+      });
+};
+
+export const updateReview = (campgroundId, reviewId, newReview) => {
+  return (dispatch, getState) =>
+    axios
+      .put(
+        `/campgrounds/${campgroundId}/reviews/${reviewId}`,
+        newReview,
+        tokenConfig(getState)
+      )
+      .then((res) => {
+        dispatch({
+          type: UPDATE_REVIEW,
+          payload: res.data,
+        });
+        dispatch(redirect(`/campgrounds/${campgroundId}`));
+      });
+};
