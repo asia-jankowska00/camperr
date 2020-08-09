@@ -12,6 +12,7 @@ import Textarea from "../components/Textarea";
 import Paper from "../components/Paper";
 import Button from "../components/Button";
 import Form from "../components/Form";
+import FileInput from "../components/FileInput";
 
 const CreateCampground = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -51,6 +52,14 @@ const CreateCampground = (props) => {
               label="Campground name"
               required={true}
             ></TextInput>
+            <TextInput
+              onChange={(e) =>
+                setCampground({ ...campground, location: e.target.value })
+              }
+              type="text"
+              label="Location"
+              required={true}
+            ></TextInput>
             <Textarea
               label="Description"
               required={true}
@@ -58,14 +67,22 @@ const CreateCampground = (props) => {
                 setCampground({ ...campground, description: e.target.value })
               }
             ></Textarea>
-            <TextInput
-              onChange={(e) =>
-                setCampground({ ...campground, image: e.target.value })
-              }
-              type="text"
-              label="Image url"
+            <TextInput></TextInput>
+            <FileInput
+              onChange={(e) => {
+                if (e.target.files[0]) {
+                  setCampground({
+                    ...campground,
+                    image: e.target.files[0],
+                    imageName: e.target.files[0].name,
+                  });
+                }
+              }}
+              chosenFile={campground.imageName}
+              type="file"
+              label="Image"
               required={true}
-            ></TextInput>
+            ></FileInput>
             <Button
               colorStyle={themeContext.color.light}
               backgroundColorStyle={themeContext.color.dark}

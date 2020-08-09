@@ -12,7 +12,8 @@ const StyledParagraph = styled.p(
   line-height: 1.4;
   margin: ${props.marginStyle}
   margin-bottom:  ${props.theme.space[2]};
-  text-align: ${props.textAlign ? props.textAlign : "left"}
+  text-align: ${props.textAlign ? props.textAlign : "left"};
+  color: ${props.colorStyle ? props.colorStyle : "inherit"};
 
 ${props.styles}
 `
@@ -21,6 +22,7 @@ ${props.styles}
 const Paragraph = (props) => {
   return (
     <StyledParagraph
+      colorStyle={props.colorStyle}
       marginStyle={props.marginStyle}
       textAlign={props.textAlign}
       styles={props.styles}

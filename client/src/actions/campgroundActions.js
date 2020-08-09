@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   GET_CAMPGROUNDS,
   GET_CAMPGROUND,
+  GET_COTD,
   DELETE_CAMPGROUND,
   ADD_CAMPGROUND,
   UPDATE_CAMPGROUND,
@@ -36,6 +37,24 @@ export const getCampground = (id) => {
       .then((res) => {
         dispatch({
           type: GET_CAMPGROUND,
+          payload: res.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err.response);
+        dispatch(returnErrors(err.response.data.msg, err.response.status));
+      });
+  };
+};
+
+export const getCampgroundOfTheDay = () => {
+  return (dispatch) => {
+    dispatch(setCampgroundsLoading());
+    axios
+      .get(`/campgrounds/cotd`)
+      .then((res) => {
+        dispatch({
+          type: GET_COTD,
           payload: res.data,
         });
       })

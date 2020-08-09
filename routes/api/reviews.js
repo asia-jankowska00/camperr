@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 const auth = require("../../middleware/auth");
+const matchUser = require("../../middleware/matchUser");
+const calcRating = require("../../middleware/calcRating");
+const isAdmin = require("../../middleware/isAdmin");
 
 const Campground = require("../../models/campground.model");
-const User = require("../../models/user.model");
 const Review = require("../../models/review.model");
 
-router.post("/", auth, async (req, res) => {
-  console.log(req.params.id);
+router.post("/", auth, calcRating, async (req, res) => {
   try {
     const campground = await Campground.findById(req.params.id).exec();
     if (!campground) throw Error("This campground doesn't exist");
@@ -30,40 +31,54 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-router.delete("/:reviewId", auth, async (req, res) => {
-  try {
-    const review = await Review.findByIdAndDelete(req.params.reviewId).exec();
-    if (!review) throw Error("This review doesn't exist");
+router.delete(
+  "/:reviewId",
+  auth,
+  isAdmin,
+  matchUser,
+  calcRating,
+  async (req, res) => {
+    try {
+      const review = await Review.findByIdAndDelete(req.params.reviewId).exec();
+      if (!review) throw Error("This review doesn't exist");
 
-    const campground = await Campground.findById(
-      req.params.campgroundId
-    ).exec();
-    if (!campground) throw Error("This campground doesn't exist");
+      const campground = await Campground.findById(
+        req.params.campgroundId
+      ).exec();
+      if (!campground) throw Error("This campground doesn't exist");
 
-    campground.reviews.pull(req.params.reviewId);
-    campground.save();
+      campground.reviews.pull(req.params.reviewId);
+      campground.save();
 
-    res.json(campground);
-  } catch (err) {
-    res.json({ msg: err.message });
-  }
-});
-
-router.put("/:reviewId", auth, async (req, res) => {
-  try {
-    const review = await Review.findByIdAndUpdate(
-      req.params.reviewId,
-      req.body,
-      { new: true }
-    ).exec();
-
-    if (!review) throw Error("This review doesn't exist");
-    else {
-      res.json(review);
+      res.json(campground);
+    } catch (err) {
+      return res.json({ msg: err.message });
     }
-  } catch (err) {
-    res.json({ msg: err.message });
   }
-});
+);
+
+router.put(
+  "/:reviewId",
+  auth,
+  isAdmin,
+  matchUser,
+  calcRating,
+  async (req, res) => {
+    try {
+      const review = await Review.findByIdAndUpdate(
+        req.params.reviewId,
+        req.body,
+        { new: true }
+      ).exec();
+
+      if (!review) throw Error("This review doesn't exist");
+      else {
+        res.json(review);
+      }
+    } catch (err) {
+      res.json({ msg: err.message });
+    }
+  }
+);
 
 module.exports = router;

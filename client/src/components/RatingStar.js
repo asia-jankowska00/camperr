@@ -15,6 +15,14 @@ const StyledStar = styled(Star)(
       `
 );
 
+const StyledRadio = styled.input.attrs((props) => ({
+  value: props.value,
+}))(
+  (props) => `
+      display: none;
+      `
+);
+
 const RatingStar = (props) => {
   const themeContext = useContext(ThemeContext);
 
@@ -26,28 +34,34 @@ const RatingStar = (props) => {
   const initialRating = props.initialRating;
 
   return (
-    <StyledStar
-      isSettable={props.isSettable}
-      onClick={props.isSettable ? () => setRating(props.starId) : null}
-      onMouseEnter={
-        props.isSettable ? () => setHoverRating(props.starId) : null
-      }
-      onMouseLeave={
-        props.isSettable
-          ? () => {
-              console.log(initialRating);
-              setHoverRating(initialRating);
-            }
-          : null
-      }
-      height={props.size}
-      width={props.size}
-      fill={
-        props.starId <= (hoverRating || rating)
-          ? themeContext.color.success
-          : themeContext.color.success_light
-      }
-    ></StyledStar>
+    <React.Fragment>
+      <StyledStar
+        isSettable={props.isSettable}
+        onClick={props.isSettable ? () => setRating(props.starId) : null}
+        onMouseEnter={
+          props.isSettable ? () => setHoverRating(props.starId) : null
+        }
+        onMouseLeave={
+          props.isSettable
+            ? () => {
+                setHoverRating(rating);
+              }
+            : null
+        }
+        height={props.size}
+        width={props.size}
+        fill={
+          props.starId <= (hoverRating || rating)
+            ? themeContext.color.success
+            : themeContext.color.success_light
+        }
+      ></StyledStar>
+      <StyledRadio
+        radioId={props.starId}
+        name="rating"
+        checked={props.starId <= rating ? true : false}
+      ></StyledRadio>
+    </React.Fragment>
   );
 };
 

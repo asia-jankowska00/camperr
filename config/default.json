@@ -1,3 +1,4 @@
 {
-  "jwtSecret": "camperr_secret"
+  "jwtSecret": "camperr_secret",
+  "maps_api": "AIzaSyA-ACv5-1miGUh_mE4dhxd2Ib4nbQkhS-w"
 }

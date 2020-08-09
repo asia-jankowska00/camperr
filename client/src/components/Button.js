@@ -42,6 +42,7 @@ const StyledButton = styled.button(
 const Button = (props) => {
   return (
     <StyledButton
+      type={props.type}
       onClick={props.onClick}
       colorStyle={props.colorStyle}
       backgroundColorStyle={props.backgroundColorStyle}

@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
+const Grid = require("gridfs-stream");
+
 // Configuration
 require("dotenv").config();
 const app = express();
@@ -21,21 +23,28 @@ app.use("/campgrounds", require("./routes/api/campgrounds.js"));
 app.use("/campgrounds/:id/reviews", require("./routes/api/reviews.js"));
 app.use("/users", require("./routes/api/users.js"));
 app.use("/auth", require("./routes/api/auth.js"));
+// app.use("/files", require("./routes/api/files.js"));
 
 // MongoDB connection
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {
+  useUnifiedTopology: true,
   useNewUrlParser: true,
   useCreateIndex: true,
-  useUnifiedTopology: true,
+  useFindAndModify: false,
 });
 
 // https://mongoosejs.com/docs/deprecations.html#findandmodify
-mongoose.set("useFindAndModify", false);
+// mongoose.set("useFindAndModify", false);
+
+let gfs;
 
 const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("MongoDB connection established");
+  gfs = Grid(connection.db, mongoose.mongo);
+  gfs.collection("uploads");
+  app.locals.gfs = gfs;
 });
 
 app.listen(port, () => {

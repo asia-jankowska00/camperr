@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { ThemeContext } from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -20,8 +20,14 @@ import Review from "../components/Review";
 import Rating from "../components/Rating";
 import Textarea from "../components/Textarea";
 import Form from "../components/Form";
+import Map from "../components/Map";
 
 import Layout from "../layouts/Layout";
+
+const scrollToRef = (ref) => {
+  window.scrollTo(0, ref.current.offsetTop);
+  console.log("scrolled");
+};
 
 const Campground = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -32,15 +38,33 @@ const Campground = (props) => {
   const isLoading = useSelector((state) => state.campground.loading);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const currentUser = useSelector((state) => state.auth.user);
+  const scrollToReviews = useSelector((state) => state.router.scrollToReviews);
 
+  const [isUserAuthor, setIsUserAuthor] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState({});
 
+  const myRef = useRef(null);
+
   useEffect(() => {
     dispatch(getCampground(id));
   }, []);
+
+  useEffect(() => {
+    if (scrollToReviews) {
+      scrollToRef(myRef);
+    }
+  }, [campgroundData]);
+
+  useEffect(() => {
+    if (campgroundData && campgroundData.author && currentUser) {
+      currentUser._id === campgroundData.author.id || currentUser.isAdmin
+        ? setIsUserAuthor(true)
+        : setIsUserAuthor(false);
+    }
+  }, [campgroundData, currentUser]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -59,6 +83,7 @@ const Campground = (props) => {
 
   return (
     <Layout>
+      {/* <Button onClick={() => scrollToRef(myRef)}></Button> */}
       <Modal
         setIsModalOpen={setIsModalOpen}
         isModalOpen={isModalOpen}
@@ -79,7 +104,7 @@ const Campground = (props) => {
         ) : (
           <React.Fragment>
             <FlexWrapper justifyContent="space-between">
-              {isAuthenticated ? (
+              {isAuthenticated && isUserAuthor ? (
                 <FlexWrapper justifyContent="flex-end">
                   <Button
                     onClick={() => setIsModalOpen(true)}
@@ -101,7 +126,12 @@ const Campground = (props) => {
                 </FlexWrapper>
               ) : null}
 
-              <Paper marginStyle="0 2rem 2rem 0" widthStyle="w-1/4"></Paper>
+              <Paper marginStyle="0 2rem 2rem 0" widthStyle="w-1/4">
+                <Map
+                  center={{ lat: campgroundData.lat, lng: campgroundData.lng }}
+                  zoom={11}
+                ></Map>
+              </Paper>
               <Card
                 widthStyle="w-2/3"
                 campground={campgroundData}
@@ -110,11 +140,13 @@ const Campground = (props) => {
             </FlexWrapper>
 
             <FlexWrapper justifyContent="flex-end">
+              <div ref={myRef}></div>
               <Paper flexDirection="column" widthStyle="w-2/3">
                 <FlexWrapper justifyContent="space-between" alignItems="center">
                   <Headline tag="h5">Reviews</Headline>
+
                   <Button
-                    onClick={async () => {
+                    onClick={() => {
                       if (isAuthenticated) {
                         setIsReviewFormOpen(!isReviewFormOpen);
                       } else {
@@ -136,6 +168,8 @@ const Campground = (props) => {
                     onSubmit={(e) => {
                       e.preventDefault();
                       dispatch(addReview(review, id));
+                      setIsReviewFormOpen(false);
+                      setRating(0);
                     }}
                   >
                     <Textarea
@@ -167,7 +201,7 @@ const Campground = (props) => {
                 ) : null}
 
                 {campgroundData.reviews
-                  ? campgroundData.reviews.map((review, index) => {
+                  ? campgroundData.reviews.map((review) => {
                       return (
                         <Review
                           key={review.id}

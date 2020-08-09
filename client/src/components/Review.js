@@ -1,9 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { ThemeContext } from "styled-components";
 import styled from "styled-components";
+import moment from "moment";
 
 import { useSelector, useDispatch } from "react-redux";
-import { deleteReview } from "../actions/reviewActions";
+import { deleteReview, updateReview } from "../actions/reviewActions";
 
 import FlexWrapper from "./FlexWrapper";
 import Avatar from "./Avatar";
@@ -11,12 +12,7 @@ import Rating from "./Rating";
 import Button from "./Button";
 import Textarea from "./Textarea";
 import Paragraph from "./Paragraph";
-
-// const StyledReview = styled.p(
-//   (props) => `
-
-//   `
-// );
+import Form from "./Form";
 
 const StyledReviewWrapper = styled.div(
   (props) => `
@@ -33,6 +29,7 @@ const Review = (props) => {
 
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const currentUser = useSelector((state) => state.auth.user);
 
   const campgroundId = props.campgroundId;
   const review = props.review;
@@ -40,9 +37,18 @@ const Review = (props) => {
 
   const initialRating = review.rating || 0;
 
+  const [isUserAuthor, setIsUserAuthor] = useState(false);
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const [newRating, setNewRating] = useState(initialRating);
   const [newReviewText, setNewReviewText] = useState(review.text);
+
+  useEffect(() => {
+    if (review && review.author && currentUser) {
+      currentUser._id === review.author.id || currentUser.isAdmin
+        ? setIsUserAuthor(true)
+        : setIsUserAuthor(false);
+    }
+  }, [review, currentUser]);
 
   return (
     <FlexWrapper alignItems="center">
@@ -63,7 +69,7 @@ const Review = (props) => {
             setRating={isEditFormOpen ? setNewRating : null}
           ></Rating>
 
-          {isAuthenticated ? (
+          {isAuthenticated && isUserAuthor ? (
             <FlexWrapper widthStyle="auto">
               <Button
                 onClick={() => {
@@ -92,7 +98,17 @@ const Review = (props) => {
         </FlexWrapper>
 
         {isEditFormOpen ? (
-          <React.Fragment>
+          <Form
+            onSubmit={(e) => {
+              const newReview = {
+                rating: newRating,
+                text: newReviewText,
+              };
+              e.preventDefault();
+              dispatch(updateReview(campgroundId, review._id, newReview));
+              setIsEditFormOpen(false);
+            }}
+          >
             <Textarea
               value={newReviewText}
               onChange={(e) => {
@@ -107,11 +123,14 @@ const Review = (props) => {
             >
               Submit
             </Button>
-          </React.Fragment>
+          </Form>
         ) : (
           <React.Fragment>
             <Paragraph>{review.text}</Paragraph>
-            <Paragraph>Created at: {review.createdAt}</Paragraph>
+            <Paragraph colorStyle={themeContext.color.grey_med}>
+              Added at:
+              {moment(review.createdAt).format("MMMM Do YYYY, h:mm a")}
+            </Paragraph>
           </React.Fragment>
         )}
       </StyledReviewWrapper>

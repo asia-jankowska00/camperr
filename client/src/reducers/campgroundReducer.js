@@ -1,6 +1,7 @@
 import {
   GET_CAMPGROUNDS,
   GET_CAMPGROUND,
+  GET_COTD,
   ADD_CAMPGROUND,
   UPDATE_CAMPGROUND,
   DELETE_CAMPGROUND,
@@ -13,6 +14,7 @@ import {
 const initialState = {
   campgrounds: [],
   campground: {},
+  campgroundOfTheDay: {},
   loading: false,
 };
 
@@ -29,6 +31,13 @@ export default function campgroundReducer(state = initialState, action) {
       return {
         ...state,
         campground: action.payload,
+        loading: false,
+      };
+
+    case GET_COTD:
+      return {
+        ...state,
+        campgroundOfTheDay: action.payload,
         loading: false,
       };
 
@@ -64,7 +73,7 @@ export default function campgroundReducer(state = initialState, action) {
 
     case UPDATE_REVIEW:
       const newReviews = state.campground.reviews.map((review) => {
-        if ((review._id = action.payload.id)) {
+        if (review._id === action.payload._id) {
           review = action.payload;
         }
         return review;

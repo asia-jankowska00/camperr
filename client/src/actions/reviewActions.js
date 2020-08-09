@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ADD_REVIEW, UPDATE_REVIEW, DELETE_REVIEW } from "../actions/types";
+import { getCampground } from "./campgroundActions";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
 import { redirect } from "./routerActions";
@@ -13,8 +14,8 @@ export const addReview = (review, id) => {
           type: ADD_REVIEW,
           payload: res.data,
         });
-        console.log(res.data);
-        dispatch(redirect(`/campgrounds/${id}/`));
+        dispatch(getCampground(id));
+        // dispatch(redirect(`/campgrounds/${id}/`));
       })
       .catch((err) => {
         dispatch(returnErrors(err.response.data.msg, err.response.status));
@@ -34,7 +35,11 @@ export const deleteReview = (campgroundId, reviewId) => {
           type: DELETE_REVIEW,
           payload: reviewId,
         });
-        dispatch(redirect(`/campgrounds/${campgroundId}`));
+        dispatch(getCampground(campgroundId));
+        // dispatch(redirect(`/campgrounds/${campgroundId}`));
+      })
+      .catch((err) => {
+        dispatch(returnErrors(err.response.data.msg, err.response.status));
       });
 };
 
@@ -51,6 +56,11 @@ export const updateReview = (campgroundId, reviewId, newReview) => {
           type: UPDATE_REVIEW,
           payload: res.data,
         });
-        dispatch(redirect(`/campgrounds/${campgroundId}`));
+        console.log(res.data);
+        dispatch(getCampground(campgroundId));
+        // dispatch(redirect(`/campgrounds/${campgroundId}`));
+      })
+      .catch((err) => {
+        dispatch(returnErrors(err.response.data.msg, err.response.status));
       });
 };

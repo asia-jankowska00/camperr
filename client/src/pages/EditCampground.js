@@ -55,6 +55,15 @@ const EditCampground = (props) => {
                 setCampground({ ...campground, name: e.target.value })
               }
             ></TextInput>
+            <TextInput
+              onChange={(e) =>
+                setCampground({ ...campground, location: e.target.value })
+              }
+              type="text"
+              value={campground.location || ""}
+              label="Location"
+              required={true}
+            ></TextInput>
             <Textarea
               label="Description"
               value={campground.description || ""}

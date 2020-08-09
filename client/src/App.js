@@ -4,7 +4,7 @@ import { Route, Switch, useLocation, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "./actions/authActions";
 import { clearErrors } from "./actions/errorActions";
-import { redirect } from "./actions/routerActions";
+import { redirect, clearRedirect } from "./actions/routerActions";
 
 import PrivateRoute from "./components/PrivateRoute";
 import Homepage from "./pages/Homepage";
@@ -23,15 +23,6 @@ function App(props) {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const redirectTo = useSelector((state) => state.router.redirectTo);
 
-  // const isInitialMount = useRef(true);
-  // useEffect(() => {
-  //   if (isInitialMount.current) {
-  //     isInitialMount.current = false;
-  //   } else {
-  //     dispatch(loadUser());
-  //   }
-  // }, [isAuthenticated]);
-
   useEffect(() => {
     if (localStorage.getItem("token")) {
       dispatch(loadUser());
@@ -41,8 +32,8 @@ function App(props) {
   useEffect(() => {
     if (errorHasShown) {
       dispatch(clearErrors());
-      dispatch(redirect(null));
     }
+    dispatch(clearRedirect());
   }, [location]);
 
   return (
@@ -56,7 +47,11 @@ function App(props) {
         <Route path="/" exact component={Homepage} />
         <Route path="/campgrounds" exact component={Campgrounds} />
         <PrivateRoute path="/campgrounds/new" component={CreateCampground} />
-        <PrivateRoute path="/campgrounds/:id/edit" component={EditCampground} />
+        <PrivateRoute
+          path="/campgrounds/:id/edit"
+          matchUser={true}
+          component={EditCampground}
+        />
         <Route path="/campgrounds/:id" component={Campground} />
 
         <Route path="/login" component={Login} />

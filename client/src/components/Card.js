@@ -2,12 +2,13 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 
-// import { useContext } from "react";
-// import { ThemeContext } from "styled-components";
+import { useDispatch } from "react-redux";
+import { scrollToReviews } from "../actions/routerActions";
 
 import Button from "./Button";
 import Headline from "./Headline";
 import Paragraph from "./Paragraph";
+import Rating from "./Rating";
 
 const StyledCardWrapper = styled.div(
   (props) => `
@@ -58,6 +59,7 @@ const StyledButtonsWrapper = styled.div(
 
 const Card = (props) => {
   const themeContext = useContext(ThemeContext);
+  const dispatch = useDispatch();
 
   return (
     <StyledCardWrapper widthStyle={props.widthStyle}>
@@ -66,21 +68,26 @@ const Card = (props) => {
         <Headline tag="h5" styles={`text-align: left; margin-top: 0;`}>
           {props.campground.name}
         </Headline>
+        <Rating rating={props.campground.ratingAverage}></Rating>
 
         <Paragraph>{props.campground.description}</Paragraph>
+        <Paragraph>{props.campground.location}</Paragraph>
         <Paragraph>
           Added by:
           {props.campground.author ? props.campground.author.username : null}
         </Paragraph>
         {props.showButtons ? (
           <StyledButtonsWrapper>
-            <Button
-              linkStyle={true}
-              colorStyle={themeContext.color.dark}
-              backgroundColorStyle={themeContext.color.transparent}
-            >
-              Reviews
-            </Button>
+            <Link to={`/campgrounds/${props.campground._id}`}>
+              <Button
+                linkStyle={true}
+                colorStyle={themeContext.color.dark}
+                backgroundColorStyle={themeContext.color.transparent}
+                onClick={() => dispatch(scrollToReviews())}
+              >
+                Reviews
+              </Button>
+            </Link>
             <Link to={`/campgrounds/${props.campground._id}`}>
               <Button
                 colorStyle={themeContext.color.light}
