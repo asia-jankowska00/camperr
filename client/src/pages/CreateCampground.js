@@ -27,13 +27,26 @@ const CreateCampground = (props) => {
     },
   });
 
+  let formData = new FormData();
+
   return (
     <Layout>
       <Container justifyContent="center">
         <Form
           onSubmit={(e) => {
             e.preventDefault();
-            dispatch(addCampground(campground));
+            // let key;
+            // for (key in campground) {
+            //   formData.append(key, campground[key]);
+            //   console.log(formData);
+            // }
+            formData.append("name", campground.name);
+            formData.append("location", campground.location);
+            formData.append("author", campground.author);
+            formData.append("description", campground.description);
+            formData.append("image", campground.image);
+            console.log(formData);
+            dispatch(addCampground(formData));
           }}
         >
           <Paper
@@ -67,10 +80,11 @@ const CreateCampground = (props) => {
                 setCampground({ ...campground, description: e.target.value })
               }
             ></Textarea>
-            <TextInput></TextInput>
             <FileInput
               onChange={(e) => {
                 if (e.target.files[0]) {
+                  // formData.append("image", e.target.files[0]);
+
                   setCampground({
                     ...campground,
                     image: e.target.files[0],

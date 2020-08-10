@@ -84,7 +84,7 @@ export const deleteCampground = (id) => {
 export const addCampground = (campground) => {
   return (dispatch, getState) =>
     axios
-      .post("/campgrounds", campground, tokenConfig(getState))
+      .post("/campgrounds", campground, tokenConfig(getState, true))
       .then((res) => {
         dispatch({
           type: ADD_CAMPGROUND,

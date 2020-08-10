@@ -73,12 +73,12 @@ export const logoutUser = () => {
   };
 };
 
-export const tokenConfig = (getState) => {
+export const tokenConfig = (getState, isFormData) => {
   const token = getState().auth.token;
 
   const config = {
     headers: {
-      // "Content-type": "application/json",
+      "Content-type": isFormData ? "multipart/form-data" : "application/json",
     },
   };
 

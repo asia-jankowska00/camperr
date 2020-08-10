@@ -23,7 +23,7 @@ app.use("/campgrounds", require("./routes/api/campgrounds.js"));
 app.use("/campgrounds/:id/reviews", require("./routes/api/reviews.js"));
 app.use("/users", require("./routes/api/users.js"));
 app.use("/auth", require("./routes/api/auth.js"));
-// app.use("/files", require("./routes/api/files.js"));
+app.use("/files", require("./routes/api/files.js"));
 
 // MongoDB connection
 const uri = process.env.ATLAS_URI;

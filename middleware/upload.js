@@ -37,5 +37,5 @@ const uploadImage = (req, res, next) => {
 //   next();
 // };
 
-// module.exports = upload;
-module.exports = uploadImage;
+module.exports = upload;
+// module.exports = uploadImage;

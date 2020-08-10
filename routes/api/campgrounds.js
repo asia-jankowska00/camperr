@@ -4,7 +4,8 @@ const auth = require("../../middleware/auth");
 const isAdmin = require("../../middleware/isAdmin");
 const matchUser = require("../../middleware/matchUser");
 const calcRating = require("../../middleware/calcRating");
-const uploadImage = require("../../middleware/upload");
+// const uploadImage = require("../../middleware/upload");
+const upload = require("../../middleware/upload");
 
 const NodeGeocoder = require("node-geocoder");
 const options = {
@@ -44,31 +45,51 @@ router.get("/:id", calcRating, async (req, res) => {
     const campground = await Campground.findById(req.params.id)
       .populate("reviews")
       .exec();
+
     if (!campground) throw Error("This campground doesn't exist");
+
+    // gfs.files.find({ _id: campground.image }).toArray((err, file) => {
+    //   // if (!file || file.length === 0) {
+    //   // return res.status(404).json({
+    //   //   err: "No file exists",
+    //   // });
+    //   // }
+    //   console.log(file);
+    //   // campground.image = file.filename;
+    // });
+
+    // gfs.files
+    //   .find({ filename: campground.image })
+    //   .toArray(function (err, file) {
+    //     // if (err) ...
+    //     console.log(file);
+    //     campground.image = `/files/${file.filename}`;
+
+    //     // const readstream = gfs.createReadStream(file.filename);
+    //     // readstream.pipe(res);
+
+    //     // const writestream = gfs.createWriteStream(file.filename);
+    //     // gfs.createReadStream(`/images/${file.filename}`).pipe(writestream);
+    //     // console.log(res);
+    //   });
+
+    // gfs.findOne({ _id: campground.image }, function (err, file) {
+    //   console.log(file);
+    // });
+    // campground.image = `/files/${campground.image}`;
+
     res.json(campground);
   } catch (err) {
     res.status(404).json({ msg: err.message });
   }
 });
 
-router.post("/", auth, uploadImage, async (req, res) => {
-  const gfs = req.app.locals.gfs;
-  console.log(req.body.image);
-  // console.log(gfs.files.find({ filename: "myImage.png" }));
-  // gfs.files.findById({ filename: req.params.filename }, (err, file) => {
-  //   // Check if file
-  //   if (!file || file.length === 0) {
-  //     return res.status(404).json({
-  //       err: "No file exists",
-  //     });
-  //   }
-  //   // File exists
-  //   return res.json(file);
-  // });
+router.post("/", auth, upload.single("image"), async (req, res) => {
+  console.log(req.body);
 
   const newCampground = new Campground({
     name: req.body.name,
-    image: req.body.image,
+    image: `/files/${req.file.filename}`,
     description: req.body.description,
     location: req.body.location,
     author: {
