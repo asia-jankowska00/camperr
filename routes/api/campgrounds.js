@@ -84,6 +84,7 @@ router.get("/:id", calcRating, async (req, res) => {
   }
 });
 
+//
 router.post("/", auth, upload.single("image"), async (req, res) => {
   console.log(req.body);
 
