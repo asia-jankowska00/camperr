@@ -35,17 +35,13 @@ const CreateCampground = (props) => {
         <Form
           onSubmit={(e) => {
             e.preventDefault();
-            // let key;
-            // for (key in campground) {
-            //   formData.append(key, campground[key]);
-            //   console.log(formData);
-            // }
+
             formData.append("name", campground.name);
             formData.append("location", campground.location);
-            formData.append("author", campground.author);
+            formData.append("author", JSON.stringify(campground.author));
             formData.append("description", campground.description);
             formData.append("image", campground.image);
-            console.log(formData);
+
             dispatch(addCampground(formData));
           }}
         >

@@ -6,17 +6,22 @@ async function calcRating(req, res, next) {
       .populate("reviews")
       .exec();
 
-    const allRatings = campground.reviews.map((review) => {
-      if (review.rating) {
-        return review.rating;
-      }
-    });
+    const allReviews = campground.reviews;
 
-    const ratingAverage =
-      allRatings.reduce((a, b) => a + b, 0) / allRatings.length;
+    if (allReviews && allReviews.length) {
+      // console.log("All reviews - ", allReviews);
+      //throw Error("There are no ratings");
 
-    campground.ratingAverage = Math.round(ratingAverage);
-    campground.save();
+      const allRatings = allReviews
+        .filter((review) => review.rating)
+        .map((review) => review.rating);
+
+      const ratingAverage =
+        allRatings.reduce((a, b) => a + b, 0) / allRatings.length;
+
+      campground.ratingAverage = Math.round(ratingAverage);
+      campground.save();
+    }
     next();
   } catch (err) {
     res.json({ msg: err.message });

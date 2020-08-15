@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useContext } from "react";
 import { ThemeContext } from "styled-components";
 
-import img from "../images/cover.jpg";
+// import img from "../images/cover.jpg";
 
 import Button from "./Button";
 import Headline from "./Headline";
@@ -13,7 +13,7 @@ const StyledThumbnailContainer = styled.div(
   (props) => `
     width: 45%;
     height: 200px;
-    background-image: url(${img});
+    background-image: url(/files/${props.image});
     background-size: cover;
     box-shadow: ${props.theme.style.shadow};
     margin-bottom:  ${props.theme.space[2]};
@@ -45,9 +45,9 @@ const Thumbnail = (props) => {
   const themeContext = useContext(ThemeContext);
 
   return (
-    <StyledThumbnailContainer>
+    <StyledThumbnailContainer image={props.image}>
       <StyledThumbnailOverlay>
-        <Headline>{props.title}</Headline>
+        <Headline tag="h3">{props.title}</Headline>
         <Button
           linkStyle={true}
           colorStyle={themeContext.color.light}

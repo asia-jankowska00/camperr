@@ -59,7 +59,6 @@ export const getCampgroundOfTheDay = () => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
         dispatch(returnErrors(err.response.data.msg, err.response.status));
       });
   };
@@ -68,7 +67,7 @@ export const getCampgroundOfTheDay = () => {
 export const deleteCampground = (id) => {
   return (dispatch, getState) =>
     axios
-      .delete(`/campgrounds/${id}`, tokenConfig(getState))
+      .delete(`/campgrounds/${id}`, tokenConfig(getState, false))
       .then((res) => {
         dispatch({
           type: DELETE_CAMPGROUND,
@@ -102,7 +101,7 @@ export const updateCampground = (id, campground) => {
   return (dispatch, getState) => {
     dispatch(setCampgroundsLoading());
     axios
-      .put(`/campgrounds/${id}`, campground, tokenConfig(getState))
+      .put(`/campgrounds/${id}`, campground, tokenConfig(getState, true))
       .then((res) => {
         dispatch({
           type: UPDATE_CAMPGROUND,

@@ -27,14 +27,15 @@ const StyledCardWrapper = styled.div(
 const StyledCardImage = styled.div(
   (props) => `
       width: 100%;
-      height: 150px;
-      background-image: url(${props.image});
+      height: ${props.size === "large" ? "300px" : "150px"};
+      background-image: url(/files/${props.image});
       background-size: cover;
+      background-position: center;
       background-repeat: no-repeat;
       color: ${props.theme.color.light};
 
       @media ${props.theme.device.laptop} {
-        height: 200px;
+        height: ${props.size === "large" ? "400px" : "200px"};
       }
     `
 );
@@ -60,25 +61,29 @@ const StyledButtonsWrapper = styled.div(
 const Card = (props) => {
   const themeContext = useContext(ThemeContext);
   const dispatch = useDispatch();
+  const data = props.campground;
 
   return (
     <StyledCardWrapper widthStyle={props.widthStyle}>
-      <StyledCardImage image={props.campground.image}></StyledCardImage>
+      <StyledCardImage
+        image={data.image ? `${data.image}` : ""}
+        size={props.size}
+      ></StyledCardImage>
       <StyledCardContent>
         <Headline tag="h5" styles={`text-align: left; margin-top: 0;`}>
-          {props.campground.name}
+          {data.name}
         </Headline>
-        <Rating rating={props.campground.ratingAverage}></Rating>
+        <Rating rating={data.ratingAverage}></Rating>
 
-        <Paragraph>{props.campground.description}</Paragraph>
-        <Paragraph>{props.campground.location}</Paragraph>
+        <Paragraph>{data.description}</Paragraph>
+        <Paragraph>{data.location}</Paragraph>
         <Paragraph>
           Added by:
-          {props.campground.author ? props.campground.author.username : null}
+          {data.author ? data.author.username : null}
         </Paragraph>
         {props.showButtons ? (
           <StyledButtonsWrapper>
-            <Link to={`/campgrounds/${props.campground._id}`}>
+            <Link to={`/campgrounds/${data._id}`}>
               <Button
                 linkStyle={true}
                 colorStyle={themeContext.color.dark}
@@ -88,7 +93,7 @@ const Card = (props) => {
                 Reviews
               </Button>
             </Link>
-            <Link to={`/campgrounds/${props.campground._id}`}>
+            <Link to={`/campgrounds/${data._id}`}>
               <Button
                 colorStyle={themeContext.color.light}
                 backgroundColorStyle={themeContext.color.dark}

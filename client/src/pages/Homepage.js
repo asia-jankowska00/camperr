@@ -3,14 +3,14 @@ import React from "react";
 import Layout from "../layouts/Layout";
 
 import SectionImageCover from "../layouts/SectionImageCover";
-import SectionThumbnails from "../layouts/SectionThumbnails";
+import SectionCategories from "../layouts/SectionCategories";
 import SectionOfTheDay from "../layouts/SectionOfTheDay";
 
 const Homepage = () => {
   return (
     <Layout>
       <SectionImageCover></SectionImageCover>
-      <SectionThumbnails></SectionThumbnails>
+      <SectionCategories></SectionCategories>
       <SectionOfTheDay></SectionOfTheDay>
     </Layout>
   );

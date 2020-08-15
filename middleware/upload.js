@@ -23,19 +23,5 @@ const storage = new GridFsStorage({
 });
 
 const upload = multer({ storage });
-const uploadImage = (req, res, next) => {
-  upload.single("image");
-  console.log(req.image);
-  console.log(req.body.image);
-  next();
-};
-// async (req, res, next) => {
-//   const fileInfo = await
-//    upload.single("image");
-//   //   console.log(req.image);
-//   //   req.image = fileInfo;
-//   next();
-// };
 
 module.exports = upload;
-// module.exports = uploadImage;

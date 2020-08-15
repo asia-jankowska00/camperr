@@ -80,6 +80,7 @@ router.post("/login", (req, res) => {
             token,
             user: {
               id: user.id,
+              isAdmin: user.isAdmin,
               username: user.username,
               email: user.email,
             },

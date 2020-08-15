@@ -4,7 +4,6 @@ const auth = require("../../middleware/auth");
 const isAdmin = require("../../middleware/isAdmin");
 const matchUser = require("../../middleware/matchUser");
 const calcRating = require("../../middleware/calcRating");
-// const uploadImage = require("../../middleware/upload");
 const upload = require("../../middleware/upload");
 
 const NodeGeocoder = require("node-geocoder");
@@ -17,7 +16,6 @@ const options = {
 const geocoder = NodeGeocoder(options);
 
 const Campground = require("../../models/campground.model");
-const User = require("../../models/user.model");
 
 router.get("/", (req, res) => {
   Campground.find()
@@ -48,55 +46,59 @@ router.get("/:id", calcRating, async (req, res) => {
 
     if (!campground) throw Error("This campground doesn't exist");
 
-    // gfs.files.find({ _id: campground.image }).toArray((err, file) => {
-    //   // if (!file || file.length === 0) {
-    //   // return res.status(404).json({
-    //   //   err: "No file exists",
-    //   // });
-    //   // }
-    //   console.log(file);
-    //   // campground.image = file.filename;
-    // });
-
-    // gfs.files
-    //   .find({ filename: campground.image })
-    //   .toArray(function (err, file) {
-    //     // if (err) ...
-    //     console.log(file);
-    //     campground.image = `/files/${file.filename}`;
-
-    //     // const readstream = gfs.createReadStream(file.filename);
-    //     // readstream.pipe(res);
-
-    //     // const writestream = gfs.createWriteStream(file.filename);
-    //     // gfs.createReadStream(`/images/${file.filename}`).pipe(writestream);
-    //     // console.log(res);
-    //   });
-
-    // gfs.findOne({ _id: campground.image }, function (err, file) {
-    //   console.log(file);
-    // });
-    // campground.image = `/files/${campground.image}`;
-
     res.json(campground);
   } catch (err) {
     res.status(404).json({ msg: err.message });
   }
 });
 
-//
+router.put(
+  "/:id",
+  auth,
+  upload.single("image"),
+  isAdmin,
+  matchUser,
+  async (req, res) => {
+    try {
+      const updatedCamground = {
+        name: req.body.name,
+        description: req.body.description,
+        location: req.body.location,
+        image: req.body.image,
+      };
+      console.log(updatedCamground);
+      if (req.file) updatedCamground.image = req.file.filename;
+
+      const geocodedData = await geocoder.geocode(req.body.location);
+
+      if (!geocodedData) throw Error("Invalid location");
+
+      updatedCamground.lat = geocodedData[0].latitude;
+      updatedCamground.lng = geocodedData[0].longitude;
+      updatedCamground.location = geocodedData[0].formattedAddress;
+
+      const campground = await Campground.findByIdAndUpdate(
+        req.params.id,
+        updatedCamground,
+        { new: true }
+      );
+
+      res.json(campground);
+    } catch (err) {
+      res.json({ msg: err.message });
+    }
+  }
+);
+
 router.post("/", auth, upload.single("image"), async (req, res) => {
   console.log(req.body);
-
+  console.log(req.headers);
   const newCampground = new Campground({
     name: req.body.name,
-    image: `/files/${req.file.filename}`,
+    image: req.file.filename,
     description: req.body.description,
     location: req.body.location,
-    author: {
-      id: req.body.author.id,
-      username: req.body.author.username,
-    },
+    author: JSON.parse(req.body.author),
   });
 
   try {
@@ -121,38 +123,27 @@ router.post("/", auth, upload.single("image"), async (req, res) => {
   }
 });
 
-router.delete("/:id", auth, isAdmin, matchUser, (req, res) => {
-  Campground.findByIdAndDelete(req.params.id)
-    .then(res.json({ success: true }))
-    .catch((err) => res.status(404).json({ success: false }));
-});
-
-router.put("/:id", auth, isAdmin, matchUser, async (req, res) => {
-  const updatedCamground = {
-    name: req.body.name,
-    image: req.body.image,
-    description: req.body.description,
-    location: req.body.location,
-  };
-
+router.delete("/:id", auth, isAdmin, matchUser, async (req, res) => {
   try {
-    const geocodedData = await geocoder.geocode(req.body.location);
+    const campground = await Campground.findById(req.params.id);
 
-    if (!geocodedData) throw Error("Invalid location");
+    const gfs = req.app.locals.gfs;
 
-    updatedCamground.lat = geocodedData[0].latitude;
-    updatedCamground.lng = geocodedData[0].longitude;
-    updatedCamground.location = geocodedData[0].formattedAddress;
+    gfs.files
+      .find({ filename: campground.image })
+      .toArray(function (err, file) {
+        if (file) {
+          gfs.remove({ filename: campground.image }, function (err) {
+            if (err) throw Error("Failed to remove image");
+          });
+        }
+      });
 
-    const campground = await Campground.findByIdAndUpdate(
-      req.params.id,
-      updatedCamground,
-      { new: true }
-    );
-
-    res.json(campground);
+    campground.deleteOne();
+    res.json({ success: true });
   } catch (err) {
-    res.json({ msg: err.message });
+    console.log(err);
+    res.status(404).json({ success: false });
   }
 });
 

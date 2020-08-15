@@ -1,5 +1,4 @@
 function matchUser(req, res, next) {
-  console.log(req.user.isAdmin);
   try {
     if (req.user.isAdmin || req.user.id === req.body.author.id) {
       next();

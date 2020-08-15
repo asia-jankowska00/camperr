@@ -63,6 +63,8 @@ const Campground = (props) => {
       currentUser._id === campgroundData.author.id || currentUser.isAdmin
         ? setIsUserAuthor(true)
         : setIsUserAuthor(false);
+    } else if (currentUser) {
+      currentUser.isAdmin ? setIsUserAuthor(true) : setIsUserAuthor(false);
     }
   }, [campgroundData, currentUser]);
 
@@ -87,7 +89,9 @@ const Campground = (props) => {
       <Modal
         setIsModalOpen={setIsModalOpen}
         isModalOpen={isModalOpen}
-        onConfirm={() => dispatch(deleteCampground(id))}
+        onConfirm={() => {
+          dispatch(deleteCampground(id));
+        }}
         bodyText=""
         titleText="Do you want to delete this campground?"
       ></Modal>
@@ -126,7 +130,11 @@ const Campground = (props) => {
                 </FlexWrapper>
               ) : null}
 
-              <Paper marginStyle="0 2rem 2rem 0" widthStyle="w-1/4">
+              <Paper
+                paddingStyle="0"
+                marginStyle="0 2rem 2rem 0"
+                widthStyle="w-1/4"
+              >
                 <Map
                   center={{ lat: campgroundData.lat, lng: campgroundData.lng }}
                   zoom={11}
@@ -136,6 +144,7 @@ const Campground = (props) => {
                 widthStyle="w-2/3"
                 campground={campgroundData}
                 key={id}
+                size="large"
               ></Card>
             </FlexWrapper>
 
@@ -201,10 +210,10 @@ const Campground = (props) => {
                 ) : null}
 
                 {campgroundData.reviews
-                  ? campgroundData.reviews.map((review) => {
+                  ? campgroundData.reviews.map((review, index) => {
                       return (
                         <Review
-                          key={review.id}
+                          key={index}
                           review={review}
                           campgroundId={campgroundData._id}
                         ></Review>

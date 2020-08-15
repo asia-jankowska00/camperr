@@ -1,14 +1,22 @@
-import React from "react";
-import { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ThemeContext } from "styled-components";
+
+import { getCategories } from "../actions/categoriesActions";
+import { useDispatch, useSelector } from "react-redux";
 
 import Headline from "../components/Headline";
 import Thumbnail from "../components/Thumbnail";
 import Container from "../components/Container";
 import Paragraph from "../components/Paragraph";
 
-const SectionThumbnails = (props) => {
+const SectionCategories = (props) => {
   const themeContext = useContext(ThemeContext);
+  const categories = useSelector((state) => state.categories.categories);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCategories());
+  }, []);
 
   return (
     <Container
@@ -29,12 +37,20 @@ const SectionThumbnails = (props) => {
         justifyContent="space-around"
         alignItems="center"
       >
-        <Thumbnail title="Title" linkText="Browse" />
-        <Thumbnail title="Title" linkText="Browse" />
-        <Thumbnail title="Title" linkText="Browse" />
+        {categories
+          ? categories.map((category) => {
+              return (
+                <Thumbnail
+                  image={category.image}
+                  title={category.name}
+                  linkText="Browse"
+                />
+              );
+            })
+          : null}
       </Container>
     </Container>
   );
 };
 
-export default SectionThumbnails;
+export default SectionCategories;

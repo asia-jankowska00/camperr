@@ -12,6 +12,7 @@ import Textarea from "../components/Textarea";
 import Paper from "../components/Paper";
 import Button from "../components/Button";
 import Form from "../components/Form";
+import FileInput from "../components/FileInput";
 
 const EditCampground = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -30,13 +31,25 @@ const EditCampground = (props) => {
     setCampground(campgroundData);
   }, [campgroundData]);
 
+  let formData = new FormData();
+
   return (
     <Layout>
       <Container justifyContent="center">
         <Form
           onSubmit={(e) => {
             e.preventDefault();
-            dispatch(updateCampground(id, campground));
+
+            formData.append("name", campground.name);
+            formData.append("location", campground.location);
+            formData.append("description", campground.description);
+            formData.append("image", campground.image);
+
+            // for (var pair of formData.entries()) {
+            //   console.log("formdata", pair[0] + ", " + pair[1]);
+            // }
+
+            dispatch(updateCampground(id, formData));
           }}
         >
           <Paper
@@ -62,7 +75,6 @@ const EditCampground = (props) => {
               type="text"
               value={campground.location || ""}
               label="Location"
-              required={true}
             ></TextInput>
             <Textarea
               label="Description"
@@ -71,14 +83,20 @@ const EditCampground = (props) => {
                 setCampground({ ...campground, description: e.target.value })
               }
             ></Textarea>
-            <TextInput
-              type="text"
-              label="Image url"
-              value={campground.image || ""}
-              onChange={(e) =>
-                setCampground({ ...campground, image: e.target.value })
-              }
-            ></TextInput>
+            <FileInput
+              onChange={(e) => {
+                if (e.target.files[0]) {
+                  setCampground({
+                    ...campground,
+                    image: e.target.files[0],
+                    imageName: e.target.files[0].name,
+                  });
+                }
+              }}
+              chosenFile={campground.imageName}
+              type="file"
+              label="Image"
+            ></FileInput>
             <Button
               colorStyle={themeContext.color.light}
               backgroundColorStyle={themeContext.color.dark}

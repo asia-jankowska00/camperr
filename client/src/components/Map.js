@@ -4,7 +4,6 @@ import GoogleMapReact from "google-map-react";
 import MapPin from "./MapPin";
 
 const Map = (props) => {
-  console.log(props.center);
   return (
     <GoogleMapReact
       bootstrapURLKeys={{ key: process.env.REACT_APP_GEO_CODE_API }}
