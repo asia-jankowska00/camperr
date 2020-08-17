@@ -4,14 +4,15 @@ import { ReactComponent as Pin } from "../images/map-pin.svg";
 
 const StyledPin = styled(Pin)(
   (props) => `
-           transform: translate(-50%, -50%);
-  
+           ${props.centered ? "transform: translate(-50%, -50%); " : ""}
+      display: inline;
         `
 );
 
 const MapPin = (props) => {
   return (
     <StyledPin
+      centered={props.centered}
       height={props.size}
       width={props.size}
       // fill={

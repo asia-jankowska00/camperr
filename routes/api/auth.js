@@ -30,7 +30,7 @@ router.post("/register", (req, res) => {
         newUser.password = hash;
         newUser.save().then((user) => {
           jwt.sign(
-            { id: user.id },
+            { _id: user._id },
             config.get("jwtSecret"),
             {
               expiresIn: 3600,
@@ -40,7 +40,7 @@ router.post("/register", (req, res) => {
               res.json({
                 token,
                 user: {
-                  id: user.id,
+                  _id: user._id,
                   username: user.username,
                   email: user.email,
                 },
@@ -69,7 +69,7 @@ router.post("/login", (req, res) => {
       if (!isMatch) return res.status(400).json({ msg: "Incorrect password" });
 
       jwt.sign(
-        { id: user.id },
+        { _id: user.id },
         config.get("jwtSecret"),
         {
           expiresIn: 3600,
@@ -79,7 +79,7 @@ router.post("/login", (req, res) => {
           res.json({
             token,
             user: {
-              id: user.id,
+              _id: user._id,
               isAdmin: user.isAdmin,
               username: user.username,
               email: user.email,

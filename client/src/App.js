@@ -63,7 +63,7 @@ function App(props) {
 
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/profile" exact component={Profile} />
+        <Route path="/profile/:userId" component={Profile} />
       </Switch>
     </React.Fragment>
   );

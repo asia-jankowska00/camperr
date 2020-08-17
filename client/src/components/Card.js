@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
+import moment from "moment";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -8,6 +9,7 @@ import Button from "./Button";
 import Headline from "./Headline";
 import Paragraph from "./Paragraph";
 import Rating from "./Rating";
+import MapPin from "./MapPin";
 
 const StyledCardWrapper = styled.div(
   (props) => `
@@ -81,32 +83,43 @@ const Card = (props) => {
         <Rating rating={data.ratingAverage}></Rating>
 
         <Paragraph>{data.description}</Paragraph>
-        <Paragraph>{data.location}</Paragraph>
-        <Paragraph>
-          Added by:
-          {data.author ? data.author.username : null}
-        </Paragraph>
-        {props.showButtons ? (
-          <StyledButtonsWrapper data={data}>
-            {categories && data.categories
-              ? categories
-                  .filter((matchWithCategory) =>
-                    data.categories.includes(matchWithCategory._id)
-                  )
-                  .map((matchedCategory, index) => {
-                    return (
-                      <Button
-                        key={index}
-                        linkStyle={true}
-                        colorStyle={themeContext.color.dark}
-                        backgroundColorStyle={themeContext.color.transparent}
-                      >
-                        {matchedCategory.name}
-                      </Button>
-                    );
-                  })
-              : null}
 
+        <Paragraph>
+          <MapPin centered={false} size="20"></MapPin>
+          {data.location}
+        </Paragraph>
+
+        {data.author ? (
+          <Paragraph>
+            Added by:
+            <Link to={`/profile/${data.author.id}`}>
+              {data.author.username}
+            </Link>
+            on
+            {moment(data.createdAt).format("MMMM Do YYYY, h:mm a")}
+          </Paragraph>
+        ) : null}
+
+        <StyledButtonsWrapper data={data}>
+          {categories && data.categories
+            ? categories
+                .filter((matchWithCategory) =>
+                  data.categories.includes(matchWithCategory._id)
+                )
+                .map((matchedCategory, index) => {
+                  return (
+                    <Button
+                      key={index}
+                      linkStyle={true}
+                      colorStyle={themeContext.color.dark}
+                      backgroundColorStyle={themeContext.color.transparent}
+                    >
+                      {matchedCategory.name}
+                    </Button>
+                  );
+                })
+            : null}
+          {props.showButtons ? (
             <Link to={`/campgrounds/${data._id}`}>
               <Button
                 colorStyle={themeContext.color.light}
@@ -117,8 +130,8 @@ const Card = (props) => {
                 View
               </Button>
             </Link>
-          </StyledButtonsWrapper>
-        ) : null}
+          ) : null}
+        </StyledButtonsWrapper>
       </StyledCardContent>
     </StyledCardWrapper>
   );

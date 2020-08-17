@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
 const auth = require("../../middleware/auth");
 const isAdmin = require("../../middleware/isAdmin");
 const matchUser = require("../../middleware/matchUser");
@@ -16,6 +17,7 @@ const options = {
 const geocoder = NodeGeocoder(options);
 
 const Campground = require("../../models/campground.model");
+const Review = require("../../models/review.model");
 
 router.get("/", (req, res) => {
   Campground.find()
@@ -42,6 +44,7 @@ router.get("/:id", calcRating, async (req, res) => {
   try {
     const campground = await Campground.findById(req.params.id)
       .populate("reviews")
+      .populate("author")
       .exec();
 
     if (!campground) throw Error("This campground doesn't exist");
@@ -54,7 +57,11 @@ router.get("/:id", calcRating, async (req, res) => {
 
 router.get("/user/:userId", async (req, res) => {
   try {
-    const campgrounds = await Campground.find({ author: { id: userId } });
+    const userId = new mongoose.Types.ObjectId(req.params.userId);
+
+    const campgrounds = await Campground.find({
+      "author.id": userId,
+    });
 
     if (!campgrounds) throw Error("This user doesnt have any campgrounds");
 
@@ -91,10 +98,14 @@ router.put(
         description: req.body.description,
         location: req.body.location,
         image: req.body.image,
+        imageId: req.body.imageId,
         categories: JSON.parse(req.body.categories),
       };
 
-      if (req.file) updatedCamground.image = req.file.filename;
+      if (req.file) {
+        updatedCamground.image = req.file.filename;
+        updatedCamground.imageId = req.file.id;
+      }
 
       const geocodedData = await geocoder.geocode(req.body.location);
 
@@ -118,9 +129,11 @@ router.put(
 );
 
 router.post("/", auth, upload.single("image"), async (req, res) => {
+  // console.log(req.file);
   const newCampground = new Campground({
     name: req.body.name,
     image: req.file.filename,
+    imageId: req.file.id,
     description: req.body.description,
     location: req.body.location,
     author: JSON.parse(req.body.author),
@@ -153,17 +166,17 @@ router.delete("/:id", auth, isAdmin, matchUser, async (req, res) => {
   try {
     const campground = await Campground.findById(req.params.id);
 
+    const reviews = await Review.find({
+      _id: { $in: campground.reviews },
+    }).deleteMany();
+
     const gfs = req.app.locals.gfs;
 
-    gfs.files
-      .find({ filename: campground.image })
-      .toArray(function (err, file) {
-        if (file) {
-          gfs.files.deleteOne({ filename: campground.image }, function (err) {
-            if (err) throw Error("Failed to remove image");
-          });
-        }
-      });
+    const imageId = new mongoose.Types.ObjectId(campground.imageId);
+
+    gfs.delete(imageId, function (err) {
+      if (err) console.log(err);
+    });
 
     campground.deleteOne();
     res.json({ success: true });

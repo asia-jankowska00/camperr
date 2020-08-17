@@ -1,33 +1,35 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { ThemeContext } from "styled-components";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
 
-import { getCampground, deleteCampground } from "../actions/campgroundActions";
-
+import { getCampgroundsByUser } from "../actions/campgroundActions";
+import { getUser } from "../actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 
 import Container from "../components/Container";
 import Card from "../components/Card";
-import Button from "../components/Button";
+
 import FlexWrapper from "../components/FlexWrapper";
 import Loader from "../components/Loader";
-import Modal from "../components/Modal";
-import Paper from "../components/Paper";
+
 import Headline from "../components/Headline";
-import Sticky from "../components/Sticky";
+import Banner from "../components/Banner";
 
 import Layout from "../layouts/Layout";
 
 const Profile = (props) => {
-  const themeContext = useContext(ThemeContext);
   const dispatch = useDispatch();
-  const id = props.match.params.id;
 
-  const campground = useSelector((state) => state.campground.campground);
+  const campgroundsData = useSelector((state) => state.campground.campgrounds);
   const isLoading = useSelector((state) => state.campground.loading);
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
   const currentUser = useSelector((state) => state.auth.user);
-  const scrollToReviews = useSelector((state) => state.router.scrollToReviews);
+  const user = useSelector((state) => state.user.user);
+
+  useEffect(() => {
+    // if (currentUser) {
+    dispatch(getCampgroundsByUser(props.match.params.userId));
+    dispatch(getUser(props.match.params.userId));
+    // }
+  }, []);
 
   return (
     <Layout>
@@ -37,35 +39,30 @@ const Profile = (props) => {
             <Loader></Loader>
           </FlexWrapper>
         ) : (
-          <FlexWrapper justifyContent="space-between" alignItems="top">
-            <FlexWrapper widthStyle="25%" alignItems="top">
-              <Paper
-                paddingStyle="0"
-                positionStyle="sticky"
-                widthStyle="100%"
-                topStyle="0"
-              ></Paper>
+          <FlexWrapper justifyContent="space-between" alignItems="flex-start">
+            <FlexWrapper widthStyle="25%" alignItems="flex-start">
+              <Banner></Banner>
             </FlexWrapper>
             <FlexWrapper widthStyle="65%" justifyContent="space-between">
-              <Headline tag="h3">User's campgrounds</Headline>
-              <Card
-                widthStyle="w-46%"
-                showButtons={true}
-                campground={campground}
-                key={campground._id}
-              ></Card>
-              <Card
-                widthStyle="w-46%"
-                showButtons={true}
-                campground={campground}
-                key={campground._id}
-              ></Card>
-              <Card
-                widthStyle="w-46%"
-                showButtons={true}
-                campground={campground}
-                key={campground._id}
-              ></Card>
+              <Headline fullWidth={true} tag="h3">
+                {user ? `${user.username}'s campgrounds` : ""}
+              </Headline>
+              {isLoading ? (
+                <FlexWrapper justifyContent="center">
+                  <Loader></Loader>
+                </FlexWrapper>
+              ) : (
+                campgroundsData.map((campground) => {
+                  return (
+                    <Card
+                      widthStyle="w-46%"
+                      showButtons={true}
+                      campground={campground}
+                      key={campground._id}
+                    ></Card>
+                  );
+                })
+              )}
             </FlexWrapper>
           </FlexWrapper>
         )}

@@ -13,6 +13,7 @@ import Button from "./Button";
 import Textarea from "./Textarea";
 import Paragraph from "./Paragraph";
 import Form from "./Form";
+import { GET_USER } from "../actions/types";
 
 const StyledReviewWrapper = styled.div(
   (props) => `
@@ -47,6 +48,8 @@ const Review = (props) => {
       currentUser._id === review.author.id || currentUser.isAdmin
         ? setIsUserAuthor(true)
         : setIsUserAuthor(false);
+
+      // getUser(review.author.id)
     }
   }, [review, currentUser]);
 

@@ -38,7 +38,6 @@ const Campground = (props) => {
   const isLoading = useSelector((state) => state.campground.loading);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const currentUser = useSelector((state) => state.auth.user);
-  const scrollToReviews = useSelector((state) => state.router.scrollToReviews);
 
   const [isUserAuthor, setIsUserAuthor] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,17 +45,9 @@ const Campground = (props) => {
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState({});
 
-  const myRef = useRef(null);
-
   useEffect(() => {
     dispatch(getCampground(id));
   }, []);
-
-  useEffect(() => {
-    if (scrollToReviews) {
-      scrollToRef(myRef);
-    }
-  }, [campgroundData]);
 
   useEffect(() => {
     if (campgroundData && campgroundData.author && currentUser) {
@@ -69,7 +60,7 @@ const Campground = (props) => {
   }, [campgroundData, currentUser]);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && currentUser) {
       setReview({
         author: {
           id: currentUser._id,
@@ -149,7 +140,6 @@ const Campground = (props) => {
             </FlexWrapper>
 
             <FlexWrapper justifyContent="flex-end">
-              <div ref={myRef}></div>
               <Paper flexDirection="column" widthStyle="w-2/3">
                 <FlexWrapper justifyContent="space-between" alignItems="center">
                   <Headline tag="h5">Reviews</Headline>

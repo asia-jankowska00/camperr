@@ -12,6 +12,7 @@ const Map = (props) => {
     >
       <MapPin
         size={50}
+        centered={true}
         lat={props.center.lat}
         lng={props.center.lng}
         text="My Marker"

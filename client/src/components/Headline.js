@@ -6,7 +6,7 @@ const StyledHeadline = styled.h1(
 font-weight:  ${props.theme.typography.medium};
 text-align: ${props.textAlign};
 margin: ${props.marginStyle};
-width: 100%;
+  width: ${props.fullWidth ? "100%" : "auto"};
 ${props.styles}
 `
 );
@@ -18,6 +18,7 @@ const Headline = (props) => {
       marginStyle={props.marginStyle}
       styles={props.styles}
       textAlign={props.textAlign}
+      fullWidth={props.fullWidth}
     >
       {props.children}
     </StyledHeadline>

@@ -8,6 +8,7 @@ import {
   UPDATE_CAMPGROUND,
   CAMPGROUNDS_LOADING,
   GET_CAMPGROUNDS_BY_CAT,
+  GET_CAMPGROUNDS_BY_USER,
 } from "./types";
 import { returnErrors } from "./errorActions";
 import { tokenConfig } from "./authActions";
@@ -38,6 +39,23 @@ export const getCampgroundsByCat = (categoryId) => {
       .then((res) =>
         dispatch({
           type: GET_CAMPGROUNDS_BY_CAT,
+          payload: res.data,
+        })
+      )
+      .catch((err) => {
+        dispatch(returnErrors(err.response.data.msg, err.response.status));
+      });
+  };
+};
+
+export const getCampgroundsByUser = (userId) => {
+  return (dispatch) => {
+    dispatch(setCampgroundsLoading());
+    axios
+      .get(`/campgrounds/user/${userId}`)
+      .then((res) =>
+        dispatch({
+          type: GET_CAMPGROUNDS_BY_USER,
           payload: res.data,
         })
       )

@@ -40,9 +40,10 @@ const SectionCategories = (props) => {
         alignItems="center"
       >
         {categories
-          ? categories.map((category) => {
+          ? categories.map((category, index) => {
               return (
                 <Thumbnail
+                  key={index}
                   image={category.image}
                   title={category.name}
                   linkText="Browse"

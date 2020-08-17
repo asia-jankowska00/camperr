@@ -1,7 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const fs = require("fs");
 
-const Grid = require("gridfs-stream");
+// const Grid = require("gridfs-stream");
 
 // Configuration
 require("dotenv").config();
@@ -39,9 +40,11 @@ mongoose.connect(uri, {
 const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("MongoDB connection established");
-  const gfs = Grid(connection.db, mongoose.mongo);
-  gfs.collection("uploads");
-  app.locals.gfs = gfs;
+  // const gfs = Grid(connection.db, mongoose.mongo);
+  const gridFSBucket = new mongoose.mongo.GridFSBucket(connection.db, {
+    bucketName: "uploads",
+  });
+  app.locals.gfs = gridFSBucket;
 });
 
 app.listen(port, () => {

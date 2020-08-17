@@ -10,10 +10,12 @@ const StyledParagraph = styled.p(
   font-weight: ${props.theme.typography.regular};
   font-size: 0.9rem;
   line-height: 1.4;
-  margin: ${props.marginStyle}
-  margin-bottom:  ${props.theme.space[2]};
+  margin: ${props.marginStyle};
+
   text-align: ${props.textAlign ? props.textAlign : "left"};
   color: ${props.colorStyle ? props.colorStyle : "inherit"};
+  background: ${props.backgroundStyle ? props.backgroundStyle : "inherit"};
+  padding: ${props.paddingStyle ? props.paddingStyle : "0"};
 
 ${props.styles}
 `
@@ -26,6 +28,8 @@ const Paragraph = (props) => {
       marginStyle={props.marginStyle}
       textAlign={props.textAlign}
       styles={props.styles}
+      backgroundStyle={props.backgroundStyle}
+      paddingStyle={props.paddingStyle}
     >
       {props.children}
     </StyledParagraph>

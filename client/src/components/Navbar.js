@@ -70,9 +70,9 @@ const Navbar = () => {
       </StyledNav>
 
       <StyledNav>
-        {isAuthenticated ? (
+        {isAuthenticated && currentUser ? (
           <React.Fragment>
-            <Link to="/profile">
+            <Link to={`/profile/${currentUser._id}`}>
               <StyledNavLink>{currentUser.username}</StyledNavLink>
             </Link>
             <StyledNavLink onClick={() => dispatch(logoutUser())}>

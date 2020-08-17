@@ -24,18 +24,23 @@ const CreateCampground = (props) => {
   const currentUser = useSelector((state) => state.auth.user);
   const categories = useSelector((state) => state.categories.categories);
 
-  const [campground, setCampground] = useState({
-    author: {
-      id: currentUser._id,
-      username: currentUser.username,
-    },
-  });
+  const [campground, setCampground] = useState({});
 
   let formData = new FormData();
 
   useEffect(() => {
     dispatch(getCategories());
   }, []);
+
+  useEffect(() => {
+    if (currentUser)
+      setCampground({
+        author: {
+          id: currentUser._id,
+          username: currentUser.username,
+        },
+      });
+  }, [currentUser]);
 
   return (
     <Layout>

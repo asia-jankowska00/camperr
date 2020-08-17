@@ -18,8 +18,10 @@ export const loadUser = () => (dispatch, getState) => {
     .get("/users/user", tokenConfig(getState))
     .then((res) => dispatch({ type: USER_LOADED, payload: res.data }))
     .catch((err) => {
-      dispatch(returnErrors(err.response.data.msg, err.response.status));
-      dispatch({ type: AUTH_ERROR });
+      if (err.response) {
+        dispatch(returnErrors(err.response.data.msg, err.response.status));
+        dispatch({ type: AUTH_ERROR });
+      }
     });
 };
 
@@ -36,14 +38,16 @@ export const registerUser = ({ username, email, password }) => (dispatch) => {
     .post("/auth/register", body, config)
     .then((res) => dispatch({ type: REGISTER_SUCCESS, payload: res.data }))
     .catch((err) => {
-      dispatch(
-        returnErrors(
-          err.response.data.msg,
-          err.response.status,
-          "REGISTER_FAIL"
-        )
-      );
-      dispatch({ type: REGISTER_FAIL });
+      if (err.response) {
+        dispatch(
+          returnErrors(
+            err.response.data.msg,
+            err.response.status,
+            "REGISTER_FAIL"
+          )
+        );
+        dispatch({ type: REGISTER_FAIL });
+      }
     });
 };
 
@@ -60,10 +64,12 @@ export const loginUser = ({ email, password }) => (dispatch) => {
     .post("/auth/login", body, config)
     .then((res) => dispatch({ type: LOGIN_SUCCESS, payload: res.data }))
     .catch((err) => {
-      dispatch(
-        returnErrors(err.response.data.msg, err.response.status, "LOGIN_FAIL")
-      );
-      dispatch({ type: LOGIN_FAIL });
+      if (err.response) {
+        dispatch(
+          returnErrors(err.response.data.msg, err.response.status, "LOGIN_FAIL")
+        );
+        dispatch({ type: LOGIN_FAIL });
+      }
     });
 };
 
