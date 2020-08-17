@@ -1,7 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { getCampgrounds } from "../actions/campgroundActions";
+import {
+  getCampgrounds,
+  getCampgroundsByCat,
+} from "../actions/campgroundActions";
 import { useDispatch, useSelector } from "react-redux";
 import { ThemeContext } from "styled-components";
 
@@ -21,14 +24,18 @@ const Campgrounds = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getCampgrounds());
+    if (props.match.params.categoryId) {
+      dispatch(getCampgroundsByCat(props.match.params.categoryId));
+    } else {
+      dispatch(getCampgrounds());
+    }
   }, []);
 
   return (
     <Layout>
       <Container justifyContent="space-between" flexWrap="wrap">
         <FlexWrapper justifyContent="space-between" alignItems="center">
-          <Categories></Categories>
+          <Categories />
           <Link to="/campgrounds/new">
             <Button
               colorStyle={themeContext.color.light}

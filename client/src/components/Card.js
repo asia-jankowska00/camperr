@@ -2,8 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled, { ThemeContext } from "styled-components";
 
-import { useDispatch } from "react-redux";
-import { scrollToReviews } from "../actions/routerActions";
+import { useDispatch, useSelector } from "react-redux";
 
 import Button from "./Button";
 import Headline from "./Headline";
@@ -20,6 +19,7 @@ const StyledCardWrapper = styled.div(
       background: ${props.theme.color.white};
       color: ${props.theme.color.light};
       box-shadow: ${props.theme.style.shadow};
+      
       margin-bottom: ${props.theme.space[2]};
     `
 );
@@ -52,7 +52,11 @@ const StyledCardContent = styled.div(
 const StyledButtonsWrapper = styled.div(
   (props) => `
         display: flex;
-        justify-content: space-between;
+        justify-content: ${
+          props.data.categories && props.data.categories.length
+            ? "space-between"
+            : "flex-end"
+        };
         align-items: center;
         flex-wrap: wrap;
       `
@@ -62,6 +66,7 @@ const Card = (props) => {
   const themeContext = useContext(ThemeContext);
   const dispatch = useDispatch();
   const data = props.campground;
+  const categories = useSelector((state) => state.categories.categories);
 
   return (
     <StyledCardWrapper widthStyle={props.widthStyle}>
@@ -82,17 +87,26 @@ const Card = (props) => {
           {data.author ? data.author.username : null}
         </Paragraph>
         {props.showButtons ? (
-          <StyledButtonsWrapper>
-            <Link to={`/campgrounds/${data._id}`}>
-              <Button
-                linkStyle={true}
-                colorStyle={themeContext.color.dark}
-                backgroundColorStyle={themeContext.color.transparent}
-                onClick={() => dispatch(scrollToReviews())}
-              >
-                Reviews
-              </Button>
-            </Link>
+          <StyledButtonsWrapper data={data}>
+            {categories && data.categories
+              ? categories
+                  .filter((matchWithCategory) =>
+                    data.categories.includes(matchWithCategory._id)
+                  )
+                  .map((matchedCategory, index) => {
+                    return (
+                      <Button
+                        key={index}
+                        linkStyle={true}
+                        colorStyle={themeContext.color.dark}
+                        backgroundColorStyle={themeContext.color.transparent}
+                      >
+                        {matchedCategory.name}
+                      </Button>
+                    );
+                  })
+              : null}
+
             <Link to={`/campgrounds/${data._id}`}>
               <Button
                 colorStyle={themeContext.color.light}

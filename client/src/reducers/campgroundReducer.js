@@ -9,6 +9,7 @@ import {
   UPDATE_REVIEW,
   DELETE_REVIEW,
   CAMPGROUNDS_LOADING,
+  GET_CAMPGROUNDS_BY_CAT,
 } from "../actions/types";
 
 const initialState = {
@@ -102,6 +103,14 @@ export default function campgroundReducer(state = initialState, action) {
         ...state,
         loading: true,
       };
+
+    case GET_CAMPGROUNDS_BY_CAT:
+      return {
+        ...state,
+        campgrounds: action.payload,
+        loading: false,
+      };
+
     default:
       return state;
   }

@@ -52,6 +52,32 @@ router.get("/:id", calcRating, async (req, res) => {
   }
 });
 
+router.get("/user/:userId", async (req, res) => {
+  try {
+    const campgrounds = await Campground.find({ author: { id: userId } });
+
+    if (!campgrounds) throw Error("This user doesnt have any campgrounds");
+
+    res.json(campgrounds);
+  } catch (err) {
+    res.status(404).json({ msg: err.message });
+  }
+});
+
+router.get("/category/:categoryId", async (req, res) => {
+  try {
+    const campgrounds = await Campground.find({
+      categories: { $in: [req.params.categoryId] },
+    });
+
+    if (!campgrounds) throw Error("This user doesnt have any campgrounds");
+
+    res.json(campgrounds);
+  } catch (err) {
+    res.status(404).json({ msg: err.message });
+  }
+});
+
 router.put(
   "/:id",
   auth,
@@ -65,8 +91,9 @@ router.put(
         description: req.body.description,
         location: req.body.location,
         image: req.body.image,
+        categories: JSON.parse(req.body.categories),
       };
-      console.log(updatedCamground);
+
       if (req.file) updatedCamground.image = req.file.filename;
 
       const geocodedData = await geocoder.geocode(req.body.location);
@@ -91,14 +118,13 @@ router.put(
 );
 
 router.post("/", auth, upload.single("image"), async (req, res) => {
-  console.log(req.body);
-  console.log(req.headers);
   const newCampground = new Campground({
     name: req.body.name,
     image: req.file.filename,
     description: req.body.description,
     location: req.body.location,
     author: JSON.parse(req.body.author),
+    categories: JSON.parse(req.body.categories),
   });
 
   try {
@@ -133,7 +159,7 @@ router.delete("/:id", auth, isAdmin, matchUser, async (req, res) => {
       .find({ filename: campground.image })
       .toArray(function (err, file) {
         if (file) {
-          gfs.remove({ filename: campground.image }, function (err) {
+          gfs.files.deleteOne({ filename: campground.image }, function (err) {
             if (err) throw Error("Failed to remove image");
           });
         }

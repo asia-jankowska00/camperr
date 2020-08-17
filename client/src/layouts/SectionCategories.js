@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from "react";
 import { ThemeContext } from "styled-components";
 
 import { getCategories } from "../actions/categoriesActions";
+import { redirect } from "../actions/routerActions";
+import { getCampgroundsByCat } from "../actions/campgroundActions";
 import { useDispatch, useSelector } from "react-redux";
 
 import Headline from "../components/Headline";
@@ -44,6 +46,10 @@ const SectionCategories = (props) => {
                   image={category.image}
                   title={category.name}
                   linkText="Browse"
+                  buttonOnClick={() => {
+                    dispatch(redirect(`/campgrounds/category/${category._id}`));
+                    dispatch(getCampgroundsByCat(category._id));
+                  }}
                 />
               );
             })

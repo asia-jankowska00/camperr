@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { ThemeContext } from "styled-components";
 
 import { getCampground, updateCampground } from "../actions/campgroundActions";
+import { getCategories } from "../actions/categoriesActions";
 import { useDispatch, useSelector } from "react-redux";
 
 import Layout from "../layouts/Layout";
@@ -13,6 +14,8 @@ import Paper from "../components/Paper";
 import Button from "../components/Button";
 import Form from "../components/Form";
 import FileInput from "../components/FileInput";
+import Checkbox from "../components/Checkbox";
+import Label from "../components/Label";
 
 const EditCampground = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -20,11 +23,13 @@ const EditCampground = (props) => {
   const dispatch = useDispatch();
   const id = props.match.params.id;
   const campgroundData = useSelector((state) => state.campground.campground);
+  const categories = useSelector((state) => state.categories.categories);
 
   const [campground, setCampground] = useState({ campgroundData });
 
   useEffect(() => {
     dispatch(getCampground(id));
+    dispatch(getCategories());
   }, []);
 
   useEffect(() => {
@@ -44,6 +49,10 @@ const EditCampground = (props) => {
             formData.append("location", campground.location);
             formData.append("description", campground.description);
             formData.append("image", campground.image);
+            formData.append(
+              "categories",
+              JSON.stringify(campground.categories)
+            );
 
             // for (var pair of formData.entries()) {
             //   console.log("formdata", pair[0] + ", " + pair[1]);
@@ -97,6 +106,58 @@ const EditCampground = (props) => {
               type="file"
               label="Image"
             ></FileInput>
+
+            <Label widthStyle="100%" tag="h6">
+              Categories
+            </Label>
+            {categories
+              ? categories.map((category, index) => {
+                  return (
+                    <Checkbox
+                      key={index}
+                      onChange={(e) => {
+                        let newCategories;
+                        console.log(e.target.checked);
+
+                        if (e.target.checked) {
+                          if (!campground.categories) {
+                            newCategories = [e.target.id];
+                          } else if (
+                            !campground.categories.includes(e.target.id)
+                          ) {
+                            newCategories = [
+                              ...campground.categories,
+                              e.target.id,
+                            ];
+                          } else {
+                            newCategories = [...campground.categories];
+                          }
+                        } else {
+                          newCategories = campground.categories.filter(
+                            (id) => id !== e.target.id
+                          );
+                        }
+
+                        setCampground({
+                          ...campground,
+                          categories: newCategories,
+                        });
+                      }}
+                      id={category._id}
+                      label={category.name}
+                      checked={
+                        campground.categories &&
+                        campground.categories.includes(category._id)
+                          ? true
+                          : false
+                      }
+                    >
+                      Category 1
+                    </Checkbox>
+                  );
+                })
+              : null}
+
             <Button
               colorStyle={themeContext.color.light}
               backgroundColorStyle={themeContext.color.dark}

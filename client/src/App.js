@@ -14,6 +14,7 @@ import CreateCampground from "./pages/CreateCampground";
 import Campground from "./pages/Campground";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Profile from "./pages/Profile";
 
 function App(props) {
   const dispatch = useDispatch();
@@ -45,7 +46,13 @@ function App(props) {
       ) : null}
       <Switch>
         <Route path="/" exact component={Homepage} />
+
         <Route path="/campgrounds" exact component={Campgrounds} />
+        <Route
+          path="/campgrounds/category/:categoryId"
+          exact
+          component={Campgrounds}
+        />
         <PrivateRoute path="/campgrounds/new" component={CreateCampground} />
         <PrivateRoute
           path="/campgrounds/:id/edit"
@@ -56,6 +63,7 @@ function App(props) {
 
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path="/profile" exact component={Profile} />
       </Switch>
     </React.Fragment>
   );

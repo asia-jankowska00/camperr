@@ -4,6 +4,7 @@ import styled from "styled-components";
 const StyledFlexWrapper = styled.div(
   (props) => `
   width: ${props.widthStyle ? props.widthStyle : "100%"};
+  height: ${props.heightStyle ? props.heightStyle : "auto"};
   display: flex;
   flex-wrap: wrap;
   flex-direction ${props.flexDirection};
@@ -17,6 +18,7 @@ const StyledFlexWrapper = styled.div(
 const FlexWrapper = (props) => {
   return (
     <StyledFlexWrapper
+      heightStyle={props.heightStyle}
       marginStyle={props.marginStyle}
       widthStyle={props.widthStyle}
       justifyContent={props.justifyContent}

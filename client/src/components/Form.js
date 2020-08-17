@@ -1,7 +1,14 @@
 import React from "react";
+import styled from "styled-components";
+
+const StyledForm = styled.form(
+  (props) => `
+
+      `
+);
 
 const Form = (props) => {
-  return <form onSubmit={props.onSubmit}>{props.children}</form>;
+  return <StyledForm onSubmit={props.onSubmit}>{props.children}</StyledForm>;
 };
 
 export default Form;

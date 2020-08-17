@@ -1,6 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { ThemeContext } from "styled-components";
+
+import { getCategories } from "../actions/categoriesActions";
+import { getCampgroundsByCat } from "../actions/campgroundActions";
+import { redirect } from "../actions/routerActions";
+import { useDispatch, useSelector } from "react-redux";
 
 import Button from "./Button";
 import Headline from "./Headline";
@@ -19,7 +24,12 @@ const StyledCategories = styled.div(
 
 const Categories = (props) => {
   const themeContext = useContext(ThemeContext);
-  const categories = ["Lakes", "Forests", "Swamps"];
+  const categories = useSelector((state) => state.categories.categories);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCategories());
+  }, []);
 
   return (
     <FlexWrapper flexDirection="column" widthStyle="auto">
@@ -32,19 +42,28 @@ const Categories = (props) => {
 
       <StyledCategories>
         <FlexWrapper>
-          {categories.map((category, index) => {
-            return (
-              <Button
-                key={index}
-                colorStyle={themeContext.color.dark}
-                backgroundColorStyle={themeContext.color.white}
-                sizeVertialStyle={themeContext.space[0.75]}
-                sizeHorizontalStyle={themeContext.space[2]}
-              >
-                {category}
-              </Button>
-            );
-          })}
+          {categories
+            ? categories.map((category, index) => {
+                return (
+                  <Button
+                    id={category._id}
+                    key={index}
+                    colorStyle={themeContext.color.dark}
+                    backgroundColorStyle={themeContext.color.white}
+                    sizeVertialStyle={themeContext.space[0.75]}
+                    sizeHorizontalStyle={themeContext.space[2]}
+                    onClick={() => {
+                      dispatch(
+                        redirect(`/campgrounds/category/${category._id}`)
+                      );
+                      dispatch(getCampgroundsByCat(category._id));
+                    }}
+                  >
+                    {category.name}
+                  </Button>
+                );
+              })
+            : null}
         </FlexWrapper>
       </StyledCategories>
     </FlexWrapper>

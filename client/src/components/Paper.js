@@ -8,6 +8,7 @@ const StyledPaper = styled.div(
         ? props.theme.width[props.widthStyle]
         : props.widthStyle
     };
+    height: ${props.heightStyle ? props.heightStyle : "auto"};
     background: ${
       props.backgroundStyle ? props.backgroundStyle : props.theme.color.white
     };
@@ -21,7 +22,7 @@ const StyledPaper = styled.div(
     flex-direction: ${props.flexDirection};
     position: ${props.positionStyle};
     margin: ${props.marginStyle};
-   
+   top: ${props.topStyle ? props.topStyle : ""};
   `
 );
 
@@ -35,8 +36,10 @@ const Paper = (props) => {
       flexDirection={props.flexDirection}
       paddingStyle={props.paddingStyle}
       widthStyle={props.widthStyle}
+      heightStyle={props.heightStyle}
       positionStyle={props.positionStyle}
       marginStyle={props.marginStyle}
+      topStyle={props.topStyle}
     >
       {props.children}
     </StyledPaper>

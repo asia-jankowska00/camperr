@@ -6,6 +6,7 @@ const StyledHeadline = styled.h1(
 font-weight:  ${props.theme.typography.medium};
 text-align: ${props.textAlign};
 margin: ${props.marginStyle};
+width: 100%;
 ${props.styles}
 `
 );

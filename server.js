@@ -42,7 +42,6 @@ connection.once("open", () => {
   const gfs = Grid(connection.db, mongoose.mongo);
   gfs.collection("uploads");
   app.locals.gfs = gfs;
-  // gfs.remove({});
 });
 
 app.listen(port, () => {

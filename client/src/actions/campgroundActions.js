@@ -7,6 +7,7 @@ import {
   ADD_CAMPGROUND,
   UPDATE_CAMPGROUND,
   CAMPGROUNDS_LOADING,
+  GET_CAMPGROUNDS_BY_CAT,
 } from "./types";
 import { returnErrors } from "./errorActions";
 import { tokenConfig } from "./authActions";
@@ -20,6 +21,23 @@ export const getCampgrounds = () => {
       .then((res) =>
         dispatch({
           type: GET_CAMPGROUNDS,
+          payload: res.data,
+        })
+      )
+      .catch((err) => {
+        dispatch(returnErrors(err.response.data.msg, err.response.status));
+      });
+  };
+};
+
+export const getCampgroundsByCat = (categoryId) => {
+  return (dispatch) => {
+    dispatch(setCampgroundsLoading());
+    axios
+      .get(`/campgrounds/category/${categoryId}`)
+      .then((res) =>
+        dispatch({
+          type: GET_CAMPGROUNDS_BY_CAT,
           payload: res.data,
         })
       )

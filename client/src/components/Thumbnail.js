@@ -12,9 +12,10 @@ import Headline from "./Headline";
 const StyledThumbnailContainer = styled.div(
   (props) => `
     width: 45%;
-    height: 200px;
+    height: 250px;
     background-image: url(/files/${props.image});
     background-size: cover;
+    background-position: center;
     box-shadow: ${props.theme.style.shadow};
     margin-bottom:  ${props.theme.space[2]};
 
@@ -49,6 +50,7 @@ const Thumbnail = (props) => {
       <StyledThumbnailOverlay>
         <Headline tag="h3">{props.title}</Headline>
         <Button
+          onClick={props.buttonOnClick}
           linkStyle={true}
           colorStyle={themeContext.color.light}
           backgroundColorStyle={themeContext.color.transparent}
