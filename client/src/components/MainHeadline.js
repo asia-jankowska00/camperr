@@ -1,13 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 
-const StyledHeadline = styled.h1((props) => ({
-  color: props.theme.color.light,
-  position: "absolute",
-  top: "40vh",
-  textShadow: props.theme.style.textShadow,
-  width: "50%",
-}));
+const StyledHeadline = styled.h1(
+  (props) => `
+  color: ${props.theme.color.light};
+  position: absolute;
+  top: 40vh;
+  text-shadow: ${props.theme.style.textShadow},
+  width: 100%;
+
+  @media ${props.theme.device.tablet} {
+    width: 50%;
+  }
+`
+);
 
 const StyledHeadlineContainer = styled.div((props) => ({
   width: "100%",

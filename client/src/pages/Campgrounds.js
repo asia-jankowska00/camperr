@@ -34,7 +34,11 @@ const Campgrounds = (props) => {
   return (
     <Layout>
       <Container justifyContent="space-between" flexWrap="wrap">
-        <FlexWrapper justifyContent="space-between" alignItems="center">
+        <FlexWrapper
+          marginStyle="0 0 2rem 0"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Categories />
           <Link to="/campgrounds/new">
             <Button

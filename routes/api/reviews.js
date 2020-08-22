@@ -16,10 +16,7 @@ router.post("/", auth, calcRating, async (req, res) => {
       const newReview = new Review({
         text: req.body.text,
         rating: req.body.rating,
-        author: {
-          id: req.body.author.id,
-          username: req.body.author.username,
-        },
+        author: req.body.author,
       });
 
       campground.reviews.push(newReview);

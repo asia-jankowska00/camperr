@@ -40,6 +40,8 @@ const StyledButton = styled.button(
 );
 
 const Button = (props) => {
+  // const [toggleColor, setToggleColor] = useState();
+
   return (
     <StyledButton
       type={props.type}

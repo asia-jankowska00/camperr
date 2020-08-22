@@ -1,9 +1,12 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { ThemeContext } from "styled-components";
 
 import { getCategories } from "../actions/categoriesActions";
-import { getCampgroundsByCat } from "../actions/campgroundActions";
+import {
+  getCampgroundsByCat,
+  getCampgrounds,
+} from "../actions/campgroundActions";
 import { redirect } from "../actions/routerActions";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -27,6 +30,8 @@ const Categories = (props) => {
   const categories = useSelector((state) => state.categories.categories);
   const dispatch = useDispatch();
 
+  // const [toggleColor, setToggleColor] = useState(false);
+
   useEffect(() => {
     dispatch(getCategories());
   }, []);
@@ -42,17 +47,33 @@ const Categories = (props) => {
 
       <StyledCategories>
         <FlexWrapper>
+          <Button
+            colorStyle={themeContext.color.dark}
+            backgroundColorStyle={themeContext.color.white}
+            sizeVertialStyle={themeContext.space[0.75]}
+            sizeHorizontalStyle={themeContext.space[2]}
+            marginStyle={themeContext.space[0.5]}
+            onClick={(e) => {
+              dispatch(redirect(`/campgrounds`));
+              dispatch(getCampgrounds());
+            }}
+          >
+            All
+          </Button>
           {categories
             ? categories.map((category, index) => {
                 return (
                   <Button
                     id={category._id}
                     key={index}
+                    // toggle={toggleColor}
                     colorStyle={themeContext.color.dark}
                     backgroundColorStyle={themeContext.color.white}
                     sizeVertialStyle={themeContext.space[0.75]}
                     sizeHorizontalStyle={themeContext.space[2]}
-                    onClick={() => {
+                    marginStyle={themeContext.space[0.5]}
+                    onClick={(e) => {
+                      // setToggleColor(!toggleColor);
                       dispatch(
                         redirect(`/campgrounds/category/${category._id}`)
                       );

@@ -12,7 +12,7 @@ const StyledLogo = styled.div(
   `
 );
 
-const Logo = () => {
+const Logo = (props) => {
   return <StyledLogo>camperr</StyledLogo>;
 };
 

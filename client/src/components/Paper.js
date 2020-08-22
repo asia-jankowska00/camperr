@@ -22,13 +22,34 @@ const StyledPaper = styled.div(
     flex-direction: ${props.flexDirection};
     position: ${props.positionStyle};
     margin: ${props.marginStyle};
-   top: ${props.topStyle ? props.topStyle : ""};
+    top: ${props.topStyle ? props.topStyle : ""};
+
+    order: ${props.orderMobile ? props.orderMobile : ""};
+
+   @media ${props.theme.device.tablet} {
+    order: unset;
+    }
+
+    @media ${props.theme.device.mobileL} {
+      ${props.mobileL}
+    }
+
+    @media ${props.theme.device.tablet} {
+      ${props.tablet}
+    }
+    @media ${props.theme.device.laptop} {
+      ${props.laptop}
+    }
+
   `
 );
 
 const Paper = (props) => {
   return (
     <StyledPaper
+      mobileL={props.mobileL}
+      tablet={props.tablet}
+      laptop={props.laptop}
       colorStyle={props.colorStyle}
       backgroundStyle={props.backgroundStyle}
       justifyContent={props.justifyContent}
@@ -40,6 +61,7 @@ const Paper = (props) => {
       positionStyle={props.positionStyle}
       marginStyle={props.marginStyle}
       topStyle={props.topStyle}
+      orderMobile={props.orderMobile}
     >
       {props.children}
     </StyledPaper>

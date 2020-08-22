@@ -35,10 +35,7 @@ const CreateCampground = (props) => {
   useEffect(() => {
     if (currentUser)
       setCampground({
-        author: {
-          id: currentUser._id,
-          username: currentUser.username,
-        },
+        author: currentUser._id,
       });
   }, [currentUser]);
 
@@ -51,7 +48,7 @@ const CreateCampground = (props) => {
 
             formData.append("name", campground.name);
             formData.append("location", campground.location);
-            formData.append("author", JSON.stringify(campground.author));
+            formData.append("author", campground.author);
             formData.append("description", campground.description);
             formData.append("image", campground.image);
             formData.append(

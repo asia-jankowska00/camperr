@@ -10,19 +10,30 @@ import Headline from "./Headline";
 import Paragraph from "./Paragraph";
 import Rating from "./Rating";
 import MapPin from "./MapPin";
+import Label from "./Label";
 
 const StyledCardWrapper = styled.div(
   (props) => `
-      width: ${
-        props.theme.width[props.widthStyle]
-          ? props.theme.width[props.widthStyle]
-          : "100%"
-      };
+      width: 100%;
       background: ${props.theme.color.white};
       color: ${props.theme.color.light};
       box-shadow: ${props.theme.style.shadow};
-      
       margin-bottom: ${props.theme.space[2]};
+
+      order: ${props.orderMobile ? props.orderMobile : ""};
+
+      @media ${props.theme.device.tablet} {
+       order: unset;
+     }
+
+
+      @media ${props.theme.device.tablet} {
+        width: ${
+          props.theme.width[props.widthStyle]
+            ? props.theme.width[props.widthStyle]
+            : "100%"
+        };
+      }
     `
 );
 
@@ -71,7 +82,7 @@ const Card = (props) => {
   const categories = useSelector((state) => state.categories.categories);
 
   return (
-    <StyledCardWrapper widthStyle={props.widthStyle}>
+    <StyledCardWrapper size={props.size} widthStyle={props.widthStyle}>
       <StyledCardImage
         image={data.image ? `${data.image}` : ""}
         size={props.size}
@@ -82,7 +93,7 @@ const Card = (props) => {
         </Headline>
         <Rating rating={data.ratingAverage}></Rating>
 
-        <Paragraph>{data.description}</Paragraph>
+        <Paragraph marginStyle="2rem 0">{data.description}</Paragraph>
 
         <Paragraph>
           <MapPin centered={false} size="20"></MapPin>
@@ -90,13 +101,12 @@ const Card = (props) => {
         </Paragraph>
 
         {data.author ? (
-          <Paragraph>
-            Added by:
+          <Paragraph colorStyle={themeContext.color.grey_med}>
+            Added by:{" "}
             <Link to={`/profile/${data.author.id}`}>
               {data.author.username}
-            </Link>
-            on
-            {moment(data.createdAt).format("MMMM Do YYYY, h:mm a")}
+            </Link>{" "}
+            on {moment(data.createdAt).format("MMMM Do YYYY")}
           </Paragraph>
         ) : null}
 
@@ -107,16 +117,7 @@ const Card = (props) => {
                   data.categories.includes(matchWithCategory._id)
                 )
                 .map((matchedCategory, index) => {
-                  return (
-                    <Button
-                      key={index}
-                      linkStyle={true}
-                      colorStyle={themeContext.color.dark}
-                      backgroundColorStyle={themeContext.color.transparent}
-                    >
-                      {matchedCategory.name}
-                    </Button>
-                  );
+                  return <Label key={index}>{matchedCategory.name}</Label>;
                 })
             : null}
           {props.showButtons ? (

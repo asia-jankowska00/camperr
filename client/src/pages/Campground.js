@@ -24,11 +24,6 @@ import Map from "../components/Map";
 
 import Layout from "../layouts/Layout";
 
-const scrollToRef = (ref) => {
-  window.scrollTo(0, ref.current.offsetTop);
-  console.log("scrolled");
-};
-
 const Campground = (props) => {
   const themeContext = useContext(ThemeContext);
   const dispatch = useDispatch();
@@ -62,10 +57,7 @@ const Campground = (props) => {
   useEffect(() => {
     if (isAuthenticated && currentUser) {
       setReview({
-        author: {
-          id: currentUser._id,
-          username: currentUser.username,
-        },
+        author: currentUser._id,
       });
     }
   }, [isReviewFormOpen]);
@@ -76,7 +68,6 @@ const Campground = (props) => {
 
   return (
     <Layout>
-      {/* <Button onClick={() => scrollToRef(myRef)}></Button> */}
       <Modal
         setIsModalOpen={setIsModalOpen}
         isModalOpen={isModalOpen}
@@ -88,10 +79,6 @@ const Campground = (props) => {
       ></Modal>
 
       <Container justifyContent="space-between" flexWrap="wrap">
-        {/* <FlexWrapper justifyContent="center">
-          <Alert type="success">Alert</Alert>
-        </FlexWrapper> */}
-
         {isLoading ? (
           <FlexWrapper justifyContent="center">
             <Loader></Loader>
@@ -123,24 +110,32 @@ const Campground = (props) => {
 
               <Paper
                 paddingStyle="0"
-                marginStyle="0 2rem 2rem 0"
-                widthStyle="w-1/4"
+                widthStyle="100%"
+                heightStyle="200px"
+                orderMobile="1"
+                tablet="width: 25%; height: auto; margin: 0 2rem 2rem 0;"
               >
                 <Map
                   center={{ lat: campgroundData.lat, lng: campgroundData.lng }}
                   zoom={11}
                 ></Map>
               </Paper>
+
               <Card
                 widthStyle="w-2/3"
                 campground={campgroundData}
                 key={id}
                 size="large"
+                orderMobile="0"
               ></Card>
             </FlexWrapper>
 
             <FlexWrapper justifyContent="flex-end">
-              <Paper flexDirection="column" widthStyle="w-2/3">
+              <Paper
+                flexDirection="column"
+                widthStyle="100%"
+                tablet="width: 66.666667%;"
+              >
                 <FlexWrapper justifyContent="space-between" alignItems="center">
                   <Headline tag="h5">Reviews</Headline>
 

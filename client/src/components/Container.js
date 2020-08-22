@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const StyledContainer = styled.div(
   (props) => `
-  max-width: 95vw;
+  max-width: 90vw;
   width: 100%;
 
   margin-right: auto;
@@ -19,9 +19,12 @@ const StyledContainer = styled.div(
   align-items: ${props.alignItems};
   min-height: ${props.heightStyle};
 
+  @media ${props.theme.device.tablet} {
+    max-width: 85vw;
+  }
 
   @media ${props.theme.device.laptop} {
-    max-width: 85vw;
+    max-width: 80vw;
   }
 `
 );

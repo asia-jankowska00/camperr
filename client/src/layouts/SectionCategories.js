@@ -27,10 +27,14 @@ const SectionCategories = (props) => {
       flexDirection="column"
       heightStyle="100vh"
     >
-      <Headline tag="h3" styles={`color: ${themeContext.color.dark};`}>
+      <Headline
+        textAlign="center"
+        tag="h3"
+        styles={`color: ${themeContext.color.dark};`}
+      >
         The perfect place to find a new trip
       </Headline>
-      <Paragraph>
+      <Paragraph marginStyle="0 0 4rem 0">
         Share your favorite camping spots with other camping enthusiasts, write
         reviews and find new places to go to. Try it our for yourself!
       </Paragraph>

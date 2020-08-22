@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { ThemeContext } from "styled-components";
 import styled from "styled-components";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 import { deleteReview, updateReview } from "../actions/reviewActions";
@@ -54,23 +55,24 @@ const Review = (props) => {
   }, [review, currentUser]);
 
   return (
-    <FlexWrapper alignItems="center">
+    <FlexWrapper alignItems="flex-start">
       <Avatar
         image={
-          "https://www.mountain-forecast.com/system/images/25979/large/Turbacz.jpg?1559050776"
+          `/files/${review.author.image}`
+            ? `/files/${review.author.image}`
+            : "https://www.mountain-forecast.com/system/images/25979/large/Turbacz.jpg?1559050776"
         }
       ></Avatar>
 
       <StyledReviewWrapper>
         <FlexWrapper justifyContent="space-between">
-          <Rating
-            label={isEditFormOpen ? "Rating:" : null}
-            isSettable={isEditFormOpen ? true : false}
-            initialRating={initialRating}
-            size="20"
-            rating={isEditFormOpen ? newRating : rating}
-            setRating={isEditFormOpen ? setNewRating : null}
-          ></Rating>
+          {review.author ? (
+            <Link to={`/profile/${review.author._id}`}>
+              <Paragraph marginStyle="0 0 1.5rem 0">
+                {review.author.username}
+              </Paragraph>
+            </Link>
+          ) : null}
 
           {isAuthenticated && isUserAuthor ? (
             <FlexWrapper widthStyle="auto">
@@ -78,7 +80,7 @@ const Review = (props) => {
                 onClick={() => {
                   dispatch(deleteReview(campgroundId, review._id));
                 }}
-                marginStyle={"0 2rem 2rem 0"}
+                marginStyle={"0 2rem 1rem 0"}
                 linkStyle={true}
                 colorStyle={themeContext.color.warning}
               >
@@ -90,7 +92,7 @@ const Review = (props) => {
                   setNewReviewText(review.text);
                   setIsEditFormOpen(!isEditFormOpen);
                 }}
-                marginStyle={"0 0 2rem 0"}
+                marginStyle={"0 0 1rem 0"}
                 linkStyle={true}
                 colorStyle={themeContext.color.dark}
               >
@@ -129,8 +131,16 @@ const Review = (props) => {
           </Form>
         ) : (
           <React.Fragment>
-            <Paragraph>{review.text}</Paragraph>
-            <Paragraph colorStyle={themeContext.color.grey_med}>
+            <Rating
+              label={isEditFormOpen ? "Rating:" : null}
+              isSettable={isEditFormOpen ? true : false}
+              initialRating={initialRating}
+              size="20"
+              rating={isEditFormOpen ? newRating : rating}
+              setRating={isEditFormOpen ? setNewRating : null}
+            ></Rating>
+            <Paragraph marginStyle={"0.5rem 0 2rem 0"}>{review.text}</Paragraph>
+            <Paragraph marginStyle="0" colorStyle={themeContext.color.grey_med}>
               Added at:
               {moment(review.createdAt).format("MMMM Do YYYY, h:mm a")}
             </Paragraph>

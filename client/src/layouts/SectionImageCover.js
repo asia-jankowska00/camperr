@@ -55,6 +55,7 @@ const SectionImageCover = (props) => {
         heightStyle="100vh"
       >
         <Headline
+          textAlign="center"
           tag="h3"
           styles={`text-shadow: ${themeContext.style.textShadow};`}
         >

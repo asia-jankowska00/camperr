@@ -8,7 +8,7 @@ const StyledParagraph = styled.p(
     props.theme.typography.font_fallback
   };
   font-weight: ${props.theme.typography.regular};
-  font-size: 0.9rem;
+  font-size: 1rem;
   line-height: 1.4;
   margin: ${props.marginStyle};
 

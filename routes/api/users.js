@@ -43,14 +43,37 @@ router.put("/user/:userId", upload.single("image"), async (req, res) => {
   }
 });
 
-router.post("/user/:userId", upload.single("image"), async (req, res) => {
+router.put(
+  "/user/:userId/avatar",
+  auth,
+  upload.single("image"),
+  async (req, res) => {
+    try {
+      const avatar = {
+        image: req.file.filename,
+        imageId: req.file.id,
+      };
+
+      const user = await User.findByIdAndUpdate(req.params.userId, avatar, {
+        new: true,
+      });
+
+      User.findById(req.params.userId)
+        .select("-password")
+        .then((user) => res.json(user));
+    } catch (err) {
+      res.json({ msg: err.message });
+    }
+  }
+);
+
+router.put("/user/:userId/description", auth, async (req, res) => {
   try {
-    const avatar = {
-      image: req.file.filename,
-      imageId: req.file.id,
+    const description = {
+      description: req.body.description,
     };
 
-    const user = await User.findByIdAndUpdate(req.params.userId, avatar, {
+    const user = await User.findByIdAndUpdate(req.params.userId, description, {
       new: true,
     });
 

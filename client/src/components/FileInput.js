@@ -28,7 +28,7 @@ const FileInput = (props) => {
   return (
     <InputWrapper>
       {props.label ? <Label>{props.label}</Label> : null}
-      <Label>{props.chosenFile}</Label>
+      {props.chosenFile ? <Label>{props.chosenFile}</Label> : null}
       <Button
         type="button"
         onClick={handleClick}

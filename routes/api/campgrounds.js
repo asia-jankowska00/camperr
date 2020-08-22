@@ -43,7 +43,10 @@ router.get("/cotd", async (req, res) => {
 router.get("/:id", calcRating, async (req, res) => {
   try {
     const campground = await Campground.findById(req.params.id)
-      .populate("reviews")
+      .populate({
+        path: "reviews",
+        populate: { path: "author", select: "-password" },
+      })
       .populate("author")
       .exec();
 
@@ -60,7 +63,7 @@ router.get("/user/:userId", async (req, res) => {
     const userId = new mongoose.Types.ObjectId(req.params.userId);
 
     const campgrounds = await Campground.find({
-      "author.id": userId,
+      author: userId,
     });
 
     if (!campgrounds) throw Error("This user doesnt have any campgrounds");
@@ -136,7 +139,7 @@ router.post("/", auth, upload.single("image"), async (req, res) => {
     imageId: req.file.id,
     description: req.body.description,
     location: req.body.location,
-    author: JSON.parse(req.body.author),
+    author: req.body.author,
     categories: JSON.parse(req.body.categories),
   });
 

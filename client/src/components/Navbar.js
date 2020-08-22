@@ -37,6 +37,18 @@ const StyledNavbarLogo = styled.div(
   font-size: ${props.theme.space[1.75]};
   text-shadow: ${props.theme.style.textShadow};
   margin-right: ${props.theme.space[1.5]};
+
+
+  &::before {
+    content: 'c'
+  }
+
+  &::before {
+    @media ${props.theme.device.mobileL} {
+      content: 'camperr'
+    }
+  
+  }
 `
 );
 
@@ -62,7 +74,7 @@ const Navbar = () => {
     <StyledNavbar>
       <StyledNav>
         <Link to="/">
-          <StyledNavbarLogo>camperr</StyledNavbarLogo>
+          <StyledNavbarLogo></StyledNavbarLogo>
         </Link>
         <Link to="/campgrounds">
           <StyledNavLink>Browse</StyledNavLink>

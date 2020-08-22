@@ -3,9 +3,9 @@ import styled from "styled-components";
 
 const StyledHeadline = styled.h1(
   (props) => `
-font-weight:  ${props.theme.typography.medium};
-text-align: ${props.textAlign};
-margin: ${props.marginStyle};
+  font-weight:  ${props.theme.typography.medium};
+  text-align: ${props.textAlign};
+  margin: ${props.marginStyle};
   width: ${props.fullWidth ? "100%" : "auto"};
 ${props.styles}
 `

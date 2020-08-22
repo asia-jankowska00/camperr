@@ -75,9 +75,10 @@ const Modal = (props) => {
     <StyledBackground>
       <Buffer></Buffer>
       <Container heightStyle="50vh" justifyContent="center" alignItems="center">
-        <Paper flexDirection="column">
+        <Paper flexDirection="column" justifyContent="center">
           <Headline tag="h3">{props.titleText}</Headline>
           <Paragraph textAlign="center">{props.bodyText}</Paragraph>
+          {props.children}
           <FlexWrapper justifyContent="space-between">
             <Button
               onClick={() => props.setIsModalOpen(false)}
