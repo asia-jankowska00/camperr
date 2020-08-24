@@ -7,7 +7,7 @@ import { tokenConfig } from "./authActions";
 export const getUser = (userId) => {
   return (dispatch) => {
     axios
-      .get(`/users/user/${userId}`)
+      .get(`/api/users/user/${userId}`)
       .then((res) =>
         dispatch({
           type: GET_USER,
@@ -23,7 +23,11 @@ export const getUser = (userId) => {
 export const updateAvatar = (userId, avatar) => {
   return (dispatch, getState) => {
     axios
-      .put(`/users/user/${userId}/avatar`, avatar, tokenConfig(getState, true))
+      .put(
+        `/api/users/user/${userId}/avatar`,
+        avatar,
+        tokenConfig(getState, true)
+      )
       .then((res) => {
         dispatch({
           type: UPDATE_USER,
@@ -40,7 +44,7 @@ export const updateDescription = (userId, description) => {
   return (dispatch, getState) => {
     axios
       .put(
-        `/users/user/${userId}/description`,
+        `/api/users/user/${userId}/description`,
         description,
         tokenConfig(getState, false)
       )

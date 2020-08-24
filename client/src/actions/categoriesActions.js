@@ -5,7 +5,7 @@ import { returnErrors } from "./errorActions";
 export const getCategories = () => {
   return (dispatch) => {
     axios
-      .get("/categories")
+      .get("/api/categories")
       .then((res) =>
         dispatch({
           type: GET_CATEGORIES,

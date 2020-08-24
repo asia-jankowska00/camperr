@@ -21,12 +21,12 @@ app.use(function (req, res, next) {
 });
 
 // Routes
-app.use("/campgrounds", require("./routes/api/campgrounds.js"));
-app.use("/campgrounds/:id/reviews", require("./routes/api/reviews.js"));
-app.use("/users", require("./routes/api/users.js"));
-app.use("/auth", require("./routes/api/auth.js"));
+app.use("/api/campgrounds", require("./routes/api/campgrounds.js"));
+app.use("/api/campgrounds/:id/reviews", require("./routes/api/reviews.js"));
+app.use("/api/users", require("./routes/api/users.js"));
+app.use("/api/auth", require("./routes/api/auth.js"));
 app.use("/files", require("./routes/api/files.js"));
-app.use("/categories", require("./routes/api/categories.js"));
+app.use("/api/categories", require("./routes/api/categories.js"));
 
 // MongoDB connection
 const uri = process.env.ATLAS_URI;

@@ -18,7 +18,7 @@ export const getCampgrounds = () => {
   return (dispatch) => {
     dispatch(setCampgroundsLoading());
     axios
-      .get("/campgrounds")
+      .get("/api/campgrounds")
       .then((res) =>
         dispatch({
           type: GET_CAMPGROUNDS,
@@ -35,7 +35,7 @@ export const getCampgroundsByCat = (categoryId) => {
   return (dispatch) => {
     dispatch(setCampgroundsLoading());
     axios
-      .get(`/campgrounds/category/${categoryId}`)
+      .get(`/api/campgrounds/category/${categoryId}`)
       .then((res) =>
         dispatch({
           type: GET_CAMPGROUNDS_BY_CAT,
@@ -52,7 +52,7 @@ export const getCampgroundsByUser = (userId) => {
   return (dispatch) => {
     dispatch(setCampgroundsLoading());
     axios
-      .get(`/campgrounds/user/${userId}`)
+      .get(`/api/campgrounds/user/${userId}`)
       .then((res) =>
         dispatch({
           type: GET_CAMPGROUNDS_BY_USER,
@@ -69,7 +69,7 @@ export const getCampground = (id) => {
   return (dispatch) => {
     dispatch(setCampgroundsLoading());
     axios
-      .get(`/campgrounds/${id}`)
+      .get(`/api/campgrounds/${id}`)
       .then((res) => {
         dispatch({
           type: GET_CAMPGROUND,
@@ -87,7 +87,7 @@ export const getCampgroundOfTheDay = () => {
   return (dispatch) => {
     dispatch(setCampgroundsLoading());
     axios
-      .get(`/campgrounds/cotd`)
+      .get(`/api/campgrounds/cotd`)
       .then((res) => {
         dispatch({
           type: GET_COTD,
@@ -103,7 +103,7 @@ export const getCampgroundOfTheDay = () => {
 export const deleteCampground = (id) => {
   return (dispatch, getState) =>
     axios
-      .delete(`/campgrounds/${id}`, tokenConfig(getState, false))
+      .delete(`/api/campgrounds/${id}`, tokenConfig(getState, false))
       .then((res) => {
         dispatch({
           type: DELETE_CAMPGROUND,
@@ -119,7 +119,7 @@ export const deleteCampground = (id) => {
 export const addCampground = (campground) => {
   return (dispatch, getState) =>
     axios
-      .post("/campgrounds", campground, tokenConfig(getState, true))
+      .post("/api/campgrounds", campground, tokenConfig(getState, true))
       .then((res) => {
         dispatch({
           type: ADD_CAMPGROUND,
@@ -137,7 +137,7 @@ export const updateCampground = (id, campground) => {
   return (dispatch, getState) => {
     dispatch(setCampgroundsLoading());
     axios
-      .put(`/campgrounds/${id}`, campground, tokenConfig(getState, true))
+      .put(`/api/campgrounds/${id}`, campground, tokenConfig(getState, true))
       .then((res) => {
         dispatch({
           type: UPDATE_CAMPGROUND,

@@ -8,7 +8,7 @@ import { redirect } from "./routerActions";
 export const addReview = (review, id) => {
   return (dispatch, getState) =>
     axios
-      .post(`/campgrounds/${id}/reviews/`, review, tokenConfig(getState))
+      .post(`/api/campgrounds/${id}/reviews/`, review, tokenConfig(getState))
       .then((res) => {
         dispatch({
           type: ADD_REVIEW,
@@ -27,7 +27,7 @@ export const deleteReview = (campgroundId, reviewId) => {
   return (dispatch, getState) =>
     axios
       .delete(
-        `/campgrounds/${campgroundId}/reviews/${reviewId}`,
+        `/api/campgrounds/${campgroundId}/reviews/${reviewId}`,
         tokenConfig(getState)
       )
       .then((res) => {
@@ -47,7 +47,7 @@ export const updateReview = (campgroundId, reviewId, newReview) => {
   return (dispatch, getState) =>
     axios
       .put(
-        `/campgrounds/${campgroundId}/reviews/${reviewId}`,
+        `/api/campgrounds/${campgroundId}/reviews/${reviewId}`,
         newReview,
         tokenConfig(getState)
       )
