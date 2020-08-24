@@ -103,7 +103,7 @@ const Card = (props) => {
         {data.author ? (
           <Paragraph colorStyle={themeContext.color.grey_med}>
             Added by:{" "}
-            <Link to={`/profile/${data.author.id}`}>
+            <Link to={`/profile/${data.author._id}`}>
               {data.author.username}
             </Link>{" "}
             {props.size === "large"
