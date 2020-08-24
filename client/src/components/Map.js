@@ -1,7 +1,11 @@
 import React from "react";
 import GoogleMapReact from "google-map-react";
 
+import dotenv from "dotenv";
+
 import MapPin from "./MapPin";
+
+dotenv.config({ path: "../../.env" });
 
 const Map = (props) => {
   return (

@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/asia-jankowska00/camperr/issues"
   },
-  "homepage": "https://github.com/asia-jankowska00/camperr#readme",
+  "homepage": "https://camperr.herokuapp.com/",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "concurrently": "^5.2.0",
