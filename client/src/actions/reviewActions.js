@@ -56,9 +56,9 @@ export const updateReview = (campgroundId, reviewId, newReview) => {
           type: UPDATE_REVIEW,
           payload: res.data,
         });
-        console.log(res.data);
+
         dispatch(getCampground(campgroundId));
-        // dispatch(redirect(`/campgrounds/${campgroundId}`));
+        dispatch(getCampground(campgroundId));
       })
       .catch((err) => {
         dispatch(returnErrors(err.response.data.msg, err.response.status));

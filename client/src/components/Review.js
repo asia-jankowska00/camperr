@@ -43,22 +43,27 @@ const Review = (props) => {
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const [newRating, setNewRating] = useState(initialRating);
   const [newReviewText, setNewReviewText] = useState(review.text);
+  const [newReviewAuthor, setNewReviewAuthor] = useState();
 
   useEffect(() => {
     if (review && review.author && currentUser) {
       currentUser._id === review.author.id || currentUser.isAdmin
         ? setIsUserAuthor(true)
         : setIsUserAuthor(false);
-
-      // getUser(review.author.id)
     }
   }, [review, currentUser]);
+
+  useEffect(() => {
+    if (isAuthenticated && currentUser && isUserAuthor) {
+      setNewReviewAuthor(currentUser._id);
+    }
+  }, [currentUser]);
 
   return (
     <FlexWrapper alignItems="flex-start">
       <Avatar
         image={
-          `/files/${review.author.image}`
+          review.author.image
             ? `/files/${review.author.image}`
             : "https://www.mountain-forecast.com/system/images/25979/large/Turbacz.jpg?1559050776"
         }
@@ -101,7 +106,14 @@ const Review = (props) => {
             </FlexWrapper>
           ) : null}
         </FlexWrapper>
-
+        <Rating
+          label={isEditFormOpen ? "Rating:" : null}
+          isSettable={isEditFormOpen ? true : false}
+          initialRating={initialRating}
+          size="20"
+          rating={isEditFormOpen ? newRating : rating}
+          setRating={isEditFormOpen ? setNewRating : null}
+        ></Rating>
         {isEditFormOpen ? (
           <Form
             onSubmit={(e) => {
@@ -120,6 +132,7 @@ const Review = (props) => {
                 setNewReviewText(e.target.value);
               }}
             ></Textarea>
+
             <Button
               colorStyle={themeContext.color.light}
               backgroundColorStyle={themeContext.color.dark}
@@ -131,14 +144,6 @@ const Review = (props) => {
           </Form>
         ) : (
           <React.Fragment>
-            <Rating
-              label={isEditFormOpen ? "Rating:" : null}
-              isSettable={isEditFormOpen ? true : false}
-              initialRating={initialRating}
-              size="20"
-              rating={isEditFormOpen ? newRating : rating}
-              setRating={isEditFormOpen ? setNewRating : null}
-            ></Rating>
             <Paragraph marginStyle={"0.5rem 0 2rem 0"}>{review.text}</Paragraph>
             <Paragraph marginStyle="0" colorStyle={themeContext.color.grey_med}>
               Added at:

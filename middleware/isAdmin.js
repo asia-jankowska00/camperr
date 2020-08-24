@@ -2,7 +2,7 @@ const User = require("../models/user.model");
 
 const isAdmin = async (req, res, next) => {
   try {
-    const currentUser = await User.findById(req.user.id).exec();
+    const currentUser = await User.findById(req.user._id).exec();
     if (currentUser.isAdmin) {
       req.user.isAdmin = true;
       next();

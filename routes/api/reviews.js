@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 const auth = require("../../middleware/auth");
-const matchUser = require("../../middleware/matchUser");
+const matchUserReview = require("../../middleware/matchUserReview");
 const calcRating = require("../../middleware/calcRating");
 const isAdmin = require("../../middleware/isAdmin");
 
 const Campground = require("../../models/campground.model");
 const Review = require("../../models/review.model");
+const matchUserCampground = require("../../middleware/matchUserCampground");
 
 router.post("/", auth, calcRating, async (req, res) => {
   try {
@@ -32,7 +33,7 @@ router.delete(
   "/:reviewId",
   auth,
   isAdmin,
-  matchUser,
+  matchUserReview,
   calcRating,
   async (req, res) => {
     try {
@@ -58,7 +59,7 @@ router.put(
   "/:reviewId",
   auth,
   isAdmin,
-  matchUser,
+  matchUserReview,
   calcRating,
   async (req, res) => {
     try {

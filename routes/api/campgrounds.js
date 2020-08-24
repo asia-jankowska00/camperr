@@ -3,7 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const auth = require("../../middleware/auth");
 const isAdmin = require("../../middleware/isAdmin");
-const matchUser = require("../../middleware/matchUser");
+const matchUserCampground = require("../../middleware/matchUserCampground");
 const calcRating = require("../../middleware/calcRating");
 const upload = require("../../middleware/upload");
 
@@ -21,6 +21,8 @@ const Review = require("../../models/review.model");
 
 router.get("/", (req, res) => {
   Campground.find()
+    .populate({ path: "author", select: "-password" })
+    .exec()
     .then((campgrounds) => res.json(campgrounds))
     .catch((err) => {
       throw err;
@@ -32,6 +34,7 @@ router.get("/cotd", async (req, res) => {
     const campground = await Campground.findOne()
       .sort("-ratingAverage")
       .populate("reviews")
+      .populate({ path: "author", select: "-password" })
       .exec();
     if (!campground) throw Error("This campground doesn't exist");
     res.json(campground);
@@ -47,7 +50,7 @@ router.get("/:id", calcRating, async (req, res) => {
         path: "reviews",
         populate: { path: "author", select: "-password" },
       })
-      .populate("author")
+      .populate({ path: "author", select: "-password" })
       .exec();
 
     if (!campground) throw Error("This campground doesn't exist");
@@ -93,7 +96,7 @@ router.put(
   auth,
   upload.single("image"),
   isAdmin,
-  matchUser,
+  matchUserCampground,
   async (req, res) => {
     try {
       const updatedCamground = {
@@ -165,7 +168,7 @@ router.post("/", auth, upload.single("image"), async (req, res) => {
   }
 });
 
-router.delete("/:id", auth, isAdmin, matchUser, async (req, res) => {
+router.delete("/:id", auth, isAdmin, matchUserCampground, async (req, res) => {
   try {
     const campground = await Campground.findById(req.params.id);
 

@@ -106,7 +106,9 @@ const Card = (props) => {
             <Link to={`/profile/${data.author.id}`}>
               {data.author.username}
             </Link>{" "}
-            on {moment(data.createdAt).format("MMMM Do YYYY")}
+            {props.size === "large"
+              ? `on ${moment(data.createdAt).format("MMMM Do YYYY")}`
+              : null}
           </Paragraph>
         ) : null}
 
