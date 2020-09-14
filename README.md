@@ -1,7 +1,7 @@
 # Camperr
 > Full stack MERN applciation
 
-Camperr is a social media app, build from the ground up using the MERN stack. The project was realized as an alternative take on Colt Steele’s Web Developer Bootcamp’s final project.
+Camperr is a social media app, build from the ground up using the MERN stack. The project was realized as an alternative take on <a href="https://www.udemy.com/course/the-web-developer-bootcamp">Colt Steele’s Web Developer Bootcamp’s</a> final project.
 
 
 #### 🚀 Features
